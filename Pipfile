@@ -12,6 +12,7 @@ coverage = "*"
 black = "*"
 gunicorn = "*"
 django-heroku = "*"
+whitenoise = "*"
 
 [dev-packages]
 
