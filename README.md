@@ -1,0 +1,20 @@
+# CodePartyバックエンド
+
+
+## 環境構築
+1. pipenvをインストール
+```
+brew install pipenv
+```
+2. pipfile.lockのライブラリを一括でダウンロード(pycharmなら2と3は自動的にやってくれるっぽい)
+```
+pipenv install
+```
+3. shellに入る。
+```
+pipenv shell
+```
+4. 起動
+```
+python manage.py runserver
+```

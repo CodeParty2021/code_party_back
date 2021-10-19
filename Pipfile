@@ -9,6 +9,7 @@ djangorestframework = "*"
 django-filter = "*"
 markdown = "*"
 pylint = "*"
+coverage = "*"
 
 [dev-packages]
 

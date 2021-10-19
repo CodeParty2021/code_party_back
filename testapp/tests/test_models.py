@@ -4,7 +4,7 @@ from django.test import TestCase
 from testapp.models import TestModel
 
 
-class TestModelTests(TestCase):
+class TestModelModelsTests(TestCase):
     def setUp(self): # テストケース実行毎に実行される
         TestModel.objects.create(name="テスト1", age=23)
         TestModel.objects.create(name="テスト2", age=22)

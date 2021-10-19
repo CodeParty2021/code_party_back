@@ -1,0 +1,12 @@
+[run]
+omit =
+    */tests/*
+    */migrations/*
+    */__init__.py
+[report]
+omit =
+    */tests/*
+    */migrations/*
+    */__init__.py
+[html]
+directory = cover
