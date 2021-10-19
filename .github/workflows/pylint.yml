@@ -21,4 +21,4 @@ jobs:
         pipenv install typing_extensions
     - name: Analysing the code with pylint
       run: |
-        pipenv run pylint `find .|grep [.]py`
+        pipenv run pylint --exit-zero `find .|grep [.]py`
