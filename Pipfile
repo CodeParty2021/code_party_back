@@ -8,8 +8,8 @@ django = "*"
 djangorestframework = "*"
 django-filter = "*"
 markdown = "*"
-pylint = "*"
 coverage = "*"
+black = "*"
 
 [dev-packages]
 
