@@ -1,0 +1,1 @@
+web: gunicorn code_party_back.wsgi

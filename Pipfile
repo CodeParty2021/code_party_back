@@ -10,6 +10,8 @@ django-filter = "*"
 markdown = "*"
 coverage = "*"
 black = "*"
+gunicorn = "*"
+django-heroku = "*"
 
 [dev-packages]
 
