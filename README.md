@@ -15,6 +15,7 @@ pipenv install
 pipenv shell
 ```
 4. 起動
-```
+``
 python manage.py runserver
 ```
+
