@@ -4,7 +4,10 @@
 ## 環境構築
 1. pipenvをインストール
     ```
+    #mac
     brew install pipenv
+    #win
+    pip install pipenv
     ```
 2. pipfile.lockのライブラリを一括でダウンロード(pycharmなら2と3は自動的にやってくれるっぽい)
     ```
