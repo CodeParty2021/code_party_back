@@ -25,3 +25,11 @@
     ```
     python manage.py runserver
     ```
+
+## デプロイ先 
+[heroku](https://code-party-back.herokuapp.com/)
+
+## githubのルール
+1. チケットごとにブランチを作ってmainにPRを送る 
+2. mainでローカルで正しく動くことをチェックする
+3. publishedにmainをマージするとherokuに反映される。
