@@ -27,6 +27,7 @@ jobs:
         pip install pipenv
         pipenv install
     - name: Run black
+      run: |
         pipenv run black --check ./
     - name: Run Tests
       run: |
