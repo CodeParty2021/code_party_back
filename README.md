@@ -27,7 +27,7 @@
     ```
 
 ## デプロイ先 
-[heroku](https://dashboard.heroku.com/apps/code-party-back)
+[heroku](https://code-party-back.herokuapp.com/)
 
 ## githubのルール
 1. チケットごとにブランチを作ってmainにPRを送る 
