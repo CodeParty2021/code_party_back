@@ -127,7 +127,17 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # heroku
-if "/app" in os.environ["HOME"]:
+# if "/app" in os.environ["HOME"]:
+#     import django_heroku
+
+#     django_heroku.settings(locals())
+
+try:
+    from .local_settings import *
+except ImportError:
     import django_heroku
+    import dj_database_url
 
     django_heroku.settings(locals())
+    db_from_env = dj_database_url.config()
+    DATABASES = {"default": dj_database_url.config()}
