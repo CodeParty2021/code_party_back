@@ -4,7 +4,9 @@ from StageAPI.models import Stage
 
 class StageModelsTests(TestCase):
     def setUp(self):  # テストケース実行毎に実行される
-        Stage.objects.create(name="Stage1", stage_index=10, rule="This is rules of stage1.")
+        Stage.objects.create(
+            name="Stage1", stage_index=10, rule="This is rules of stage1."
+        )
         Stage.objects.create(name="ステージ2", stage_index=1, rule="ステージ２のルールです．")
 
     def test_noraml_can_speak(self):
