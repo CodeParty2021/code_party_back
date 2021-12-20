@@ -38,10 +38,12 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "stage_api",
     "rest_framework",
+    'corsheaders',  # Django CORS Headers
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    'corsheaders.middleware.CorsMiddleware',  # Django CORS Headers
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -125,6 +127,10 @@ STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# TODO:本番用ドメインを追加する必要あり
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+]
 
 # heroku
 # if "/app" in os.environ["HOME"]:
