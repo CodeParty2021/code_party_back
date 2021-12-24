@@ -1,5 +1,5 @@
 from django.test import TestCase
-from StageAPI.models import Stage
+from stage_api.models import Stage
 
 
 class StageModelsTests(TestCase):

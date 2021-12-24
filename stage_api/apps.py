@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class StageapiConfig(AppConfig):
+class StageApiConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "StageAPI"
+    name = "stage_api"

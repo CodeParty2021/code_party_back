@@ -1,6 +1,6 @@
 from django.test import TestCase
 from rest_framework.test import APIRequestFactory, APIClient
-from StageAPI.models import Stage
+from stage_api.models import Stage
 import json
 
 
@@ -10,12 +10,12 @@ class StageAPITests(TestCase):
         self.client = APIClient(enforce_csrf_checks=True)
         # データ準備
         self.client.post(
-            "/stageapi/stages/",
+            "/stages/",
             {"name": "Stage1", "stage_index": 10, "rule": "This is rules of stage1."},
             format="json",
         )
         self.client.post(
-            "/stageapi/stages/",
+            "/stages/",
             {"name": "ステージ２", "stage_index": 1, "rule": "ステージ２のルールです．"},
             format="json",
         )
@@ -23,7 +23,7 @@ class StageAPITests(TestCase):
     def test_get_list_of_all_stages(self):
         """全ステージのリストを取得"""
         # GET
-        response = self.client.get("/stageapi/stages/", format="json")
+        response = self.client.get("/stages/", format="json")
         # レスポンスのステータスコードをチェック
         self.assertEquals(response.status_code, 200)
         # jsonをデコード
@@ -45,7 +45,7 @@ class StageAPITests(TestCase):
     def test_get_one_stage(self):
         """ID=1のステージを取得"""
         # GET
-        response = self.client.get("/stageapi/stages/1/", format="json")
+        response = self.client.get("/stages/1/", format="json")
         # レスポンスのステータスコードをチェック
         self.assertEquals(response.status_code, 200)
         # jsonをデコード

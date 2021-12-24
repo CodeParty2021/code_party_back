@@ -3,4 +3,4 @@ from .views import StageViewSet
 
 
 router = routers.DefaultRouter()
-router.register(r"stages", StageViewSet)
+router.register(r"", StageViewSet)
