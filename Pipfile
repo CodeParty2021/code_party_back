@@ -16,6 +16,7 @@ whitenoise = "*"
 dj-database-url = "*"
 firebase-admin = "*"
 django-environ = "*"
+djangorestframework-camel-case = "*"
 
 [dev-packages]
 
