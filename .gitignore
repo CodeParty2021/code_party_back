@@ -8,4 +8,3 @@ db.sqlite3
 *.org
 .DS_Store
 firebaseKeys.json
-api_test.py
