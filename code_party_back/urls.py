@@ -16,9 +16,9 @@ Including another URLconf
 from django.urls import path, include
 from django.contrib import admin
 
-from testapp.urls import router as testmodel_router
+from stage_api.urls import router as StageAPI_router
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/", include(testmodel_router.urls)),
+    path("stages/", include(StageAPI_router.urls)),
 ]
