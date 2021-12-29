@@ -46,6 +46,7 @@ keys_dict["private_key"] = keys_dict["private_key"].replace(
     r"\n",
     "\n",
 )
+print("feawf")
 cred = credentials.Certificate(keys_dict)
 firebase_admin.initialize_app(cred)
 
@@ -66,7 +67,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "testapp",
     "users",
-    # "stage_api",
+    "stage_api",
     "rest_framework",
 ]
 
