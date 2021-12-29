@@ -21,6 +21,5 @@ from users.urls import urlpatterns as users_router
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("users/", include(users_router)),
-    path("admin/", admin.site.urls),
     # path("stages/", include(StageAPI_router.urls)),
 ]

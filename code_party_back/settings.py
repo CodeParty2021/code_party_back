@@ -20,8 +20,6 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # .env ファイルをロードして環境変数へ反映
-from dotenv import load_dotenv
-
 load_dotenv()
 
 
@@ -48,8 +46,6 @@ keys_dict["private_key"] = keys_dict["private_key"].replace(
     r"\n",
     "\n",
 )
-print(r"\\n")
-print(keys_dict)
 cred = credentials.Certificate(keys_dict)
 firebase_admin.initialize_app(cred)
 
