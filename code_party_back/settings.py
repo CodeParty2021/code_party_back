@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "testapp",
     "users",
+    # "stage_api",
     "rest_framework",
 ]
 
