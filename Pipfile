@@ -17,6 +17,7 @@ dj-database-url = "*"
 firebase-admin = "*"
 django-environ = "*"
 djangorestframework-camel-case = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

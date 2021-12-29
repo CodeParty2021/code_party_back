@@ -11,16 +11,48 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+from firebase_admin import credentials
+import firebase_admin
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# .env ファイルをロードして環境変数へ反映
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-#xy3cwt55whodjw2s+xnz%xk6tu-09#ax8!44z)3e1@8c1hhn&"
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+keys_dict = {
+    "type": os.getenv("TYPE"),
+    "project_id": os.getenv("PROJECT_ID"),
+    "private_key_id": os.getenv("PRIVATE_KEY_ID"),
+    "private_key": os.getenv("PRIVATE_KEY"),
+    "client_email": os.getenv("CLIENT_EMAIL"),
+    "client_id": os.getenv("CLIENT_ID"),
+    "auth_uri": os.getenv("AUTH_URI"),
+    "token_uri": os.getenv("TOKEN_URI"),
+    "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER_X509_CERT_URL"),
+    "client_x509_cert_url": os.getenv("CLIENT_X509_CERT_URL"),
+}
+
+keys_dict["private_key"] = keys_dict["private_key"].replace(
+    r"\n",
+    "\n",
+)
+print(r"\\n")
+print(keys_dict)
+cred = credentials.Certificate(keys_dict)
+firebase_admin.initialize_app(cred)
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

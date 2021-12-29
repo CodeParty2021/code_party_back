@@ -8,3 +8,5 @@ db.sqlite3
 *.org
 .DS_Store
 firebaseKeys.json
+.env
+test_api.py
