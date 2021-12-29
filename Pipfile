@@ -19,6 +19,7 @@ django-environ = "*"
 djangorestframework-camel-case = "*"
 python-dotenv = "*"
 router = "*"
+testapp = "*"
 
 [dev-packages]
 

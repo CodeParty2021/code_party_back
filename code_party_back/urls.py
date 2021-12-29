@@ -16,12 +16,10 @@ Including another URLconf
 from django.urls import path, include
 from django.contrib import admin
 
-from testapp.urls import router as testmodel_router
 from users.urls import urlpatterns as users_router
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/", include(testmodel_router.urls)),
     path("users/", include(users_router)),
     path("admin/", admin.site.urls),
     # path("stages/", include(StageAPI_router.urls)),
