@@ -18,7 +18,7 @@ class FirebaseAuthView(APIView):
     ]
 
     def get(self, request, *args, **kwargs):
-        res = {"user_info": request.user, **request.auth}
+        res = {"userInfo": request.user, **request.auth}
         user_serializer = UserSerializer(request.user)  # オブジェクトをjsonに変えるシリアライズ機能だけ使う
         # 結果を返す
-        return Response({"user_info": user_serializer.data, **request.auth})
+        return Response({"userInfo": user_serializer.data, **request.auth})
