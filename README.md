@@ -17,8 +17,7 @@
     ```
     pipenv shell
     ```
-4. firebaseの [keyファイル](https://www.notion.so/ea4344dedbb444818cb1aad0f7b6b612?p=750a8dca400848d1a0ee8c8b1613d343) をルートディレクトリに配置。見れない人はnotionに招待をもらうこと。
-
+4. envファイルの作成
 4. dbのマイグレーション
     ```
     python manage.py migrate
