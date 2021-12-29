@@ -18,6 +18,7 @@ firebase-admin = "*"
 django-environ = "*"
 djangorestframework-camel-case = "*"
 python-dotenv = "*"
+router = "*"
 
 [dev-packages]
 
