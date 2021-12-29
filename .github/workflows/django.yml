@@ -30,6 +30,18 @@ jobs:
       run: |
         pipenv run black --check ./
     - name: Run Tests
+      env: |
+        SECRET_KEY: ${{ secrets.SECRET_KEY}}
+        TYPE:${{secret.TYPE}}
+        PROJECT_ID:${{secret.PROJECT_ID}}
+        PRIVATE_KEY_ID:${{secret.PRIVATE_KEY_ID}}
+        PRIVATE_KEY:${{secret.PRIVATE_KEY}}
+        CLIENT_EMAIL:${{secret.CLIENT_EMAIL}}
+        CLIENT_ID:${{secret.CLIENT_ID}}
+        AUTH_URI:${{secret.AUTH_URI}}
+        TOKEN_URI:${{secret.TOKEN_URI}}
+        AUTH_PROVIDER_X509_CERT_URL:${{secret.AUTH_PROVIDER_X509_CERT_URL}}
+        CLIENT_X509_CERT_URL:${{secret.CLIENT_X509_CERT_URL}}
       run: |
         pipenv run python manage.py migrate
         pipenv run python manage.py test
