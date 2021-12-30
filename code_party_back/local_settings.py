@@ -11,6 +11,7 @@ DATABASES = {
 
 DEBUG = True
 
+# TODO:環境変数で設定出来るようにして，このファイルの履歴は消したい
 SECRET_KEY = "django-insecure-#xy3cwt55whodjw2s+xnz%xk6tu-09#ax8!44z)3e1@8c1hhn&"
 
 ALLOWED_HOSTS = ["*"]
