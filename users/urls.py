@@ -3,4 +3,4 @@ from rest_framework import routers
 from .views import FirebaseAuthView
 
 
-urlpatterns = [path("auth/", FirebaseAuthView.as_view())]
+urlpatterns = [path("auth", FirebaseAuthView.as_view())]

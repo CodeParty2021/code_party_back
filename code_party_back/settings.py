@@ -46,7 +46,6 @@ keys_dict["private_key"] = keys_dict["private_key"].replace(
     r"\n",
     "\n",
 )
-print("feawf")
 cred = credentials.Certificate(keys_dict)
 firebase_admin.initialize_app(cred)
 
@@ -65,16 +64,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",  # Django CORS Headers
     "testapp",
     "users",
     "stage_api",
     "rest_framework",
-    "corsheaders",  # Django CORS Headers
 ]
 
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "corsheaders.middleware.CorsMiddleware",  # Django CORS Headers
+    "django.middleware.security.SecurityMiddleware",  # Django CORS Headers
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -137,9 +136,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ja"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Tokyo"
 
 USE_I18N = True
 
@@ -158,11 +157,10 @@ STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# TODO:本番用ドメインを追加する必要あり
+
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
 ]
-
 # heroku
 # if "/app" in os.environ["HOME"]:
 #     import django_heroku
