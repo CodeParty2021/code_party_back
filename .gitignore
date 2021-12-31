@@ -7,6 +7,5 @@ db.sqlite3
 **/.sass-cache/*
 *.org
 .DS_Store
-firebaseKeys.json
 .env
 test_api.py
