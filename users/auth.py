@@ -1,11 +1,6 @@
-import time
-import jwt
-from django.core.mail.backends import console
 from firebase_admin._auth_utils import InvalidIdTokenError
 from rest_framework.authentication import BaseAuthentication, get_authorization_header
 from rest_framework import exceptions
-
-import users
 from users.models import User
 from firebase_admin import auth
 
