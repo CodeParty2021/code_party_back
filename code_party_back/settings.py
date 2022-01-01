@@ -45,7 +45,7 @@ keys_dict = {
 keys_dict["private_key"] = keys_dict["private_key"].replace(
     r"\n",
     "\n",
-)
+)  # keyに改行コードが含まれているのでそれの変換処理
 cred = credentials.Certificate(keys_dict)
 firebase_admin.initialize_app(cred)
 
