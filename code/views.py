@@ -32,3 +32,12 @@ class CodeTestAPI(APIView):
         #result,resultcodeレコードを作成
         #jsonをResponse
         return Response({'succeeded': True})
+
+class SubmitAPI(APIView):
+    def post(self, request):
+        #reqestからcodeをローカルに保存
+        #codeレコード作成
+        #シミュレータ実行
+        #result,resultcodeレコードを作成
+        #jsonをResponse
+        return Response({'succeeded': True})

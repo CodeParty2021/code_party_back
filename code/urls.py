@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 from rest_framework import routers
-from .views import CodeViewSet,ResultViewSet,ResultCodeViewSet,CodeTestAPI
+from .views import CodeViewSet,ResultViewSet,ResultCodeViewSet,CodeTestAPI, SubmitAPI
 from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
 
@@ -18,6 +18,7 @@ result_router.register(r"resultcode", ResultCodeViewSet)
 #追加部分
 urlpatterns = [
   path('test', CodeTestAPI.as_view(), name='codetest'),
+  path('submit', SubmitAPI.as_view(), name='codesubmit'),
   path('', include(code_router.urls)),
 ]
 
