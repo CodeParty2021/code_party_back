@@ -25,7 +25,6 @@ class CodeTestAPI(APIView):
 #   authentication_classes = (authentication.TokenAuthentication,)
 #    permission_classes = (permissions.IsAdminUser,)
 
-    
     def post(self, request):
         #reqestからcodeをローカルに保存
         #codeレコード作成

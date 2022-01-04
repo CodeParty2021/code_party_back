@@ -18,13 +18,13 @@ from django.contrib import admin
 from code.models import Code
 
 from testapp.urls import router as testmodel_router
-from code.urls import code_router ,result_router,test_router
+from code.urls import code_router ,result_router
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include(testmodel_router.urls)),
-    path("code/",include(code_router.urls)),
+    #path("code/",include(code_router.urls)),
     path("result/",include(result_router.urls)),
-    path("codetest/",include('code.urls'))
+    path("code/",include('code.urls'))
 ]

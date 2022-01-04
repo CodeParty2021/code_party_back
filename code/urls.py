@@ -14,13 +14,11 @@ result_router.register(r"result", ResultViewSet)
 
 result_router.register(r"resultcode", ResultCodeViewSet)
 
-#result_router.register(r"codetest", CodeTestAPI.as_view())
-#追加部分
-test_router = routers.SimpleRouter()
 
+#追加部分
 urlpatterns = [
-  path('codetest', CodeTestAPI.as_view(), name='codetest'),
-  #path('', include(test_router.urls)),
+  path('test', CodeTestAPI.as_view(), name='codetest'),
+  path('', include(code_router.urls)),
 ]
 
 #urlpatterns = format_suffix_patterns(urlpatterns)
