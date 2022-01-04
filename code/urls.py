@@ -19,8 +19,8 @@ result_router.register(r"resultcode", ResultCodeViewSet)
 test_router = routers.SimpleRouter()
 
 urlpatterns = [
-  path('codetest', CodeTestAPI.as_view(), name='testcode'),
-  path('', include(test_router.urls)),
+  path('codetest', CodeTestAPI.as_view(), name='codetest'),
+  #path('', include(test_router.urls)),
 ]
 
-urlpatterns = format_suffix_patterns(urlpatterns)
+#urlpatterns = format_suffix_patterns(urlpatterns)

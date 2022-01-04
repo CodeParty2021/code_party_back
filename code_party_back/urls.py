@@ -26,5 +26,5 @@ urlpatterns = [
     path("api/", include(testmodel_router.urls)),
     path("code/",include(code_router.urls)),
     path("result/",include(result_router.urls)),
-    path("testcode/",include('code.urls'))
+    path("codetest/",include('code.urls'))
 ]

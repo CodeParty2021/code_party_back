@@ -25,11 +25,7 @@ class CodeTestAPI(APIView):
 #   authentication_classes = (authentication.TokenAuthentication,)
 #    permission_classes = (permissions.IsAdminUser,)
 
-    #テストように入れた
-    def get(self, request, format=None):
-        return Response({"message": "Hello World!!"},
-            status=status.HTTP_200_OK)
-
+    
     def post(self, request):
         #reqestからcodeをローカルに保存
         #codeレコード作成
