@@ -11,16 +11,16 @@ class StageAPITests(TestCase):
         # データ準備
         self.client.post(
             "/stages/",
-            {"name": "Stage1", "stage_index": 10, "rule": "This is rules of stage1."},
+            {"name": "Stage1", "stageIndex": 10, "rule": "This is rules of stage1."},
             format="json",
         )
         self.client.post(
             "/stages/",
-            {"name": "ステージ２", "stage_index": 1, "rule": "ステージ２のルールです．"},
+            {"name": "ステージ２", "stageIndex": 1, "rule": "ステージ２のルールです．"},
             format="json",
         )
 
-    def test_get_list_of_all_stages(self):
+    def test_get_list_of_all_stages(self):  # testメソッドはtest_から始めること
         """全ステージのリストを取得"""
         # GET
         response = self.client.get("/stages/", format="json")
@@ -35,10 +35,10 @@ class StageAPITests(TestCase):
                 {
                     "id": 1,
                     "name": "Stage1",
-                    "stage_index": 10,
+                    "stageIndex": 10,
                     "rule": "This is rules of stage1.",
                 },
-                {"id": 2, "name": "ステージ２", "stage_index": 1, "rule": "ステージ２のルールです．"},
+                {"id": 2, "name": "ステージ２", "stageIndex": 1, "rule": "ステージ２のルールです．"},
             ],
         )
 
@@ -56,7 +56,7 @@ class StageAPITests(TestCase):
             {
                 "id": 1,
                 "name": "Stage1",
-                "stage_index": 10,
+                "stageIndex": 10,
                 "rule": "This is rules of stage1.",
             },
         )

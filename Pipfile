@@ -14,6 +14,12 @@ gunicorn = "*"
 django-heroku = "*"
 whitenoise = "*"
 dj-database-url = "*"
+firebase-admin = "*"
+django-environ = "*"
+djangorestframework-camel-case = "*"
+python-dotenv = "*"
+router = "*"
+testapp = "*"
 django-cors-headers = "*"
 
 [dev-packages]

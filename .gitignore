@@ -7,3 +7,5 @@ db.sqlite3
 **/.sass-cache/*
 *.org
 .DS_Store
+.env
+test_api.py

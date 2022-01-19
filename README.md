@@ -17,6 +17,13 @@
     ```
     pipenv shell
     ```
+4. envファイルの作成。中身は[こちら](https://www.notion.so/ea4344dedbb444818cb1aad0f7b6b612?p=750a8dca400848d1a0ee8c8b1613d343)
+    ```
+   vi .env
+   ```
+    
+
+
 4. dbのマイグレーション
     ```
     python manage.py migrate
@@ -25,6 +32,20 @@
     ```
     python manage.py runserver
     ```
+
+## フォーマッター
+blackを使っています。push前にテストを回しましょう。 
+PyCharmユーザは[設定](https://www.notion.so/ea4344dedbb444818cb1aad0f7b6b612?p=98997f2292984e3ab4511f02f97cd21d) すればオートフォーマットしてくれます。
+```
+black .
+```
+
+## テスト
+詳細は[こちら](https://www.notion.so/ea4344dedbb444818cb1aad0f7b6b612?p=6f0af3fa3f53409ab0f4feb14adb3038)
+
+```
+coverage run --source='.' manage.py test
+```
 
 ## デプロイ先 
 旧：[heroku](https://code-party-back.herokuapp.com/)
