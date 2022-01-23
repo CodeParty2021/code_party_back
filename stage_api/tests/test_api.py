@@ -1,3 +1,4 @@
+from urllib import response
 from django.test import TestCase
 from rest_framework.test import APIRequestFactory, APIClient
 from stage_api.models import Stage
@@ -60,3 +61,34 @@ class StageAPITests(TestCase):
                 "rule": "This is rules of stage1.",
             },
         )
+
+    def test_getfiltered_examples_with_a_field(self):
+        """name=Stage でフィルターしてステージをソートして取得"""
+        #GET
+        response = self.client.get("/stages/", {
+            "name":"Stage",
+            "order_by": "stage_index"
+        }, format ="json")
+        #レスポンスのステータスコードをチェック
+        self.assertEquals(response.status_code,200)
+        #jsonをデコード
+        body = json.loads(response.content.decode("utf-8"))
+        #データチェック
+        self.assertEquals(
+            body,
+            [
+                {
+                    'id': 2,
+                    'name': 'ステージ２',
+                    'stageIndex': 1,
+                    'rule': 'ステージ２のルールです．'
+                },
+                {
+                    'id': 1,
+                    'name': 'Stage1',
+                    'stageIndex': 10,
+                    'rule': 'This is rules of stage1.'
+                },   
+            ]
+        )
+

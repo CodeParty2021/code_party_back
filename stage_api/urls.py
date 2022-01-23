@@ -3,5 +3,5 @@ from .views import StageViewSet
 
 
 router = routers.DefaultRouter()
-router.register(r"Stage", StageViewSet)
+router.register(r"", StageViewSet)
 urlpatterns = router.urls
