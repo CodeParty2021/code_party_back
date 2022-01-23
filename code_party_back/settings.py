@@ -67,8 +67,10 @@ INSTALLED_APPS = [
     "corsheaders",  # Django CORS Headers
     "testapp",
     "users",
+    "world_api",
     "stage_api",
     "rest_framework",
+    "django_filters",
 ]
 
 MIDDLEWARE = [
@@ -145,6 +147,7 @@ REST_FRAMEWORK = {
         "djangorestframework_camel_case.parser.CamelCaseJSONParser",
         # Any other parsers
     ),
+    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
 }
 
 # Internationalization
@@ -172,6 +175,7 @@ STATIC_URL = "/static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
+# TODO: 本番環境のURLを追加
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
 ]
