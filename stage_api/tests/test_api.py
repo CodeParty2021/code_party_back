@@ -12,12 +12,18 @@ class StageAPITests(TestCase):
         # データ準備
         self.client.post(
             "/stages/",
-            {"name": "Stage1", "stageIndex": 10, "rule": "This is rules of stage1."},
+            {"stageIndex": 10,
+             "objective": "This is rules of stage1.",
+            "movieUrl":"http://hoge.com/hogehoge",
+            },
             format="json",
         )
         self.client.post(
             "/stages/",
-            {"name": "ステージ２", "stageIndex": 1, "rule": "ステージ２のルールです．"},
+            {"stageIndex": 1,
+             "objective": "ステージ２のルールです．",
+             "movieUrl":"http://world.com/worldworld",
+             },
             format="json",
         )
 
@@ -35,11 +41,15 @@ class StageAPITests(TestCase):
             [
                 {
                     "id": 1,
-                    "name": "Stage1",
                     "stageIndex": 10,
-                    "rule": "This is rules of stage1.",
+                    "objective": "This is rules of stage1.",
+                    "movieUrl":"http://hoge.com/hogehoge",
                 },
-                {"id": 2, "name": "ステージ２", "stageIndex": 1, "rule": "ステージ２のルールです．"},
+                {"id": 2,
+                 "stageIndex": 1,
+                  "objective": "ステージ２のルールです．",
+                  "movieUrl":"http://world.com/worldworld",
+                }
             ],
         )
 
@@ -56,17 +66,16 @@ class StageAPITests(TestCase):
             body,
             {
                 "id": 1,
-                "name": "Stage1",
                 "stageIndex": 10,
-                "rule": "This is rules of stage1.",
+                "objective": "This is rules of stage1.",
+                "movieUrl":"http://hoge.com/hogehoge",
             },
         )
 
     def test_getfiltered_examples_with_a_field(self):
-        """name=Stage でフィルターしてステージをソートして取得"""
+        """フィルターでstage_idをソートして取得"""
         #GET
         response = self.client.get("/stages/", {
-            "name":"Stage",
             "order_by": "stage_index"
         }, format ="json")
         #レスポンスのステータスコードをチェック
@@ -79,15 +88,15 @@ class StageAPITests(TestCase):
             [
                 {
                     'id': 2,
-                    'name': 'ステージ２',
                     'stageIndex': 1,
-                    'rule': 'ステージ２のルールです．'
+                    'objective': 'ステージ２のルールです．',
+                    "movieUrl":"http://world.com/worldworld",
                 },
                 {
                     'id': 1,
-                    'name': 'Stage1',
                     'stageIndex': 10,
-                    'rule': 'This is rules of stage1.'
+                    'objective': 'This is rules of stage1.',
+                    "movieUrl":"http://hoge.com/hogehoge",
                 },   
             ]
         )
