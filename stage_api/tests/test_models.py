@@ -5,9 +5,15 @@ from stage_api.models import Stage
 class StageModelsTests(TestCase):
     def setUp(self):  # テストケース実行毎に実行される
         Stage.objects.create(
-            stage_index=10, objective="This is rules of stage1.",movie_url="http://hoge.com/hogehoge",
+            stage_index=10,
+            objective="This is rules of stage1.",
+            movie_url="http://hoge.com/hogehoge",
         )
-        Stage.objects.create(stage_index=1, objective="ステージ２のルールです．",movie_url="http://world.com/worldworld")
+        Stage.objects.create(
+            stage_index=1,
+            objective="ステージ２のルールです．",
+            movie_url="http://world.com/worldworld",
+        )
 
     def test_noraml_can_speak(self):
         """正常系テスト"""

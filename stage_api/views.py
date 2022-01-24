@@ -10,4 +10,3 @@ class StageViewSet(viewsets.ModelViewSet):
     queryset = Stage.objects.all()
     serializer_class = StageSerializer
     filter_class = StageFilter
-    
