@@ -18,6 +18,12 @@ class StageAPITests(TestCase):
             movie_url="http://hoge.com/hogehoge",
             index=10,
         )
+        w2=World.objects.create(
+            name="World1",
+            description="This is descriptions of world1.",
+            movie_url="http://hoge.com/hogehoge",
+            index=1,
+        )
         # データ準備
         self.client.post(
             "/stages/",
@@ -33,7 +39,7 @@ class StageAPITests(TestCase):
             {"stageIndex": 1,
              "objective": "ステージ２のルールです．",
              "movieUrl":"http://world.com/worldworld",
-             "wId":w1.id
+             "wId":w2.id
              },
             format="json",
         )
@@ -42,6 +48,7 @@ class StageAPITests(TestCase):
         """全ステージのリストを取得"""
         # GET
         w1_get = World.objects.get(index="10")
+        w2_get = World.objects.get(index="1")
         response = self.client.get("/stages/", format="json")
         # レスポンスのステータスコードをチェック
         self.assertEquals(response.status_code, 200)
@@ -62,7 +69,7 @@ class StageAPITests(TestCase):
                  "stageIndex": 1,
                   "objective": "ステージ２のルールです．",
                   "movieUrl":"http://world.com/worldworld",
-                  "wId":w1_get.id,
+                  "wId":w2_get.id,
                 }
             ],
         )
@@ -92,6 +99,7 @@ class StageAPITests(TestCase):
         """フィルターでstage_idをソートして取得"""
         #GET
         w1_get = World.objects.get(index="10")
+        w2_get = World.objects.get(index="1")
         response = self.client.get("/stages/", {
             "order_by": "stage_index"
         }, format ="json")
@@ -108,7 +116,7 @@ class StageAPITests(TestCase):
                     'stageIndex': 1,
                     'objective': 'ステージ２のルールです．',
                     "movieUrl":"http://world.com/worldworld",
-                    "wId":w1_get.id,
+                    "wId":w2_get.id,
                 },
                 {
                     'id': 1,
@@ -118,5 +126,30 @@ class StageAPITests(TestCase):
                     "wId":w1_get.id,
                 },   
             ]
+        )
+
+    def test_getfiltered_examples_world_id(self):
+        """worldのidが一致するものだけを取得"""
+        #GET
+        w1_get = World.objects.get(index="10")
+        response = self.client.get("/stages/",{
+        "world":w1_get.id
+        },format ="json")
+        #レスポンスのステータスコードをチェック
+        self.assertEquals(response.status_code,200)
+        #jsonをデコード
+        body = json.loads(response.content.decode("utf-8"))
+        # データチェック
+        self.assertEquals(
+            body,
+            [
+                {
+                    "id": 1,
+                    "stageIndex": 10,
+                    "objective": "This is rules of stage1.",
+                    "movieUrl":"http://hoge.com/hogehoge",
+                    "wId":w1_get.id,
+                }
+            ],
         )
 

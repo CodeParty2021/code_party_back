@@ -7,15 +7,19 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('world_api', '0001_initial'),
-        ('stage_api', '0002_remove_stage_name'),
+        ("world_api", "0001_initial"),
+        ("stage_api", "0002_remove_stage_name"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='stage',
-            name='w_id',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='world_api.world'),
+            model_name="stage",
+            name="w_id",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="world_api.world",
+            ),
             preserve_default=False,
         ),
     ]
