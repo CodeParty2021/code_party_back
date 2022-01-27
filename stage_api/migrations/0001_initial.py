@@ -25,7 +25,6 @@ class Migration(migrations.Migration):
                 ("name", models.CharField(max_length=32)),
                 ("stage_index", models.IntegerField()),
                 ("rule", models.CharField(max_length=300)),
-                ("movie_url", models.URLField()),
             ],
         ),
     ]

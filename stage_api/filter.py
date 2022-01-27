@@ -5,7 +5,7 @@ from .models import Stage
 
 
 class StageFilter(filters.FilterSet):
-    stage_index = filters.NumberFilter()
+    index = filters.NumberFilter()
     order_by = filters.OrderingFilter(fields=(("index", "index"),))
     world = filters.NumberFilter(field_name="world__id", lookup_expr="contains")
 

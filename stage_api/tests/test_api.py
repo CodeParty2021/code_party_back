@@ -1,7 +1,5 @@
-from urllib import response
 from django.test import TestCase
 from rest_framework.test import APIRequestFactory, APIClient
-from stage_api.models import Stage
 from world_api.models import World
 import json
 
@@ -26,19 +24,21 @@ class StageAPITests(TestCase):
         # データ準備
         self.client.post(
             "/stages/",
-            {"index": 10,
-             "objective": "This is rules of stage1.",
-            "movieUrl":"http://hoge.com/hogehoge",
-            "world":world1.id
+            {
+                "index": 10,
+                "objective": "This is rules of stage1.",
+                "movieUrl":"http://hoge.com/hogehoge",
+                "world":world1.id
             },
             format="json",
         )
         self.client.post(
             "/stages/",
-            {"index": 1,
-             "objective": "ステージ２のルールです．",
-             "movieUrl":"http://world.com/worldworld",
-             "world":world2.id
+            {
+                "index": 1,
+                "objective": "ステージ２のルールです．",
+                "movieUrl":"http://world.com/worldworld",
+                "world":world2.id
              },
             format="json",
         )
@@ -64,11 +64,12 @@ class StageAPITests(TestCase):
                     "movieUrl":"http://hoge.com/hogehoge",
                     "world":world1_get.id,
                 },
-                {"id": 2,
-                 "index": 1,
-                  "objective": "ステージ２のルールです．",
-                  "movieUrl":"http://world.com/worldworld",
-                  "world":world2_get.id,
+                {
+                    "id": 2,
+                    "index": 1,
+                    "objective": "ステージ２のルールです．",
+                    "movieUrl":"http://world.com/worldworld",
+                    "world":world2_get.id,
                 }
             ],
         )
@@ -111,20 +112,45 @@ class StageAPITests(TestCase):
             body,
             [
                 {
-                    'id': 2,
-                    'index': 1,
-                    'objective': 'ステージ２のルールです．',
+                    "id": 2,
+                    "index": 1,
+                    "objective": "ステージ２のルールです．",
                     "movieUrl":"http://world.com/worldworld",
                     "world":world2_get.id,
                 },
                 {
-                    'id': 1,
-                    'index': 10,
-                    'objective': 'This is rules of stage1.',
+                    "id": 1,
+                    "index": 10,
+                    "objective": "This is rules of stage1.",
                     "movieUrl":"http://hoge.com/hogehoge",
                     "world":world1_get.id,
                 },   
             ]
+        )
+
+    def test_getfiltered_examples_index(self):
+        """indexが一致するものだけを取得"""
+        #GET
+        world2_get = World.objects.get(index="1")
+        response = self.client.get("/stages/",{
+        "index":1
+        },format ="json")
+        #レスポンスのステータスコードをチェック
+        self.assertEquals(response.status_code,200)
+        #jsonをデコード
+        body = json.loads(response.content.decode("utf-8"))
+        # データチェック        
+        self.assertEquals(
+            body,
+            [
+                {
+                    "id": 2,
+                    "index": 1,
+                    "objective": "ステージ２のルールです．",
+                    "movieUrl":"http://world.com/worldworld",
+                    "world":world2_get.id,
+                }
+            ],
         )
 
     def test_getfiltered_examples_world_id(self):
