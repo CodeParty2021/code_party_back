@@ -7,17 +7,16 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Step',
+            name="Step",
             fields=[
-                ('id', models.IntegerField(primary_key=True, serialize=False)),
-                ('objective', models.CharField(max_length=100)),
-                ('description', models.CharField(max_length=300)),
-                ('index', models.IntegerField()),
+                ("id", models.IntegerField(primary_key=True, serialize=False)),
+                ("objective", models.CharField(max_length=100)),
+                ("description", models.CharField(max_length=300)),
+                ("index", models.IntegerField()),
             ],
         ),
     ]
