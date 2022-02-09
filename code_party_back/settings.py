@@ -71,6 +71,7 @@ INSTALLED_APPS = [
     "stage_api",
     "step_api",
     "code_api",
+    "result_api",
     "rest_framework",
     "django_filters",
 ]

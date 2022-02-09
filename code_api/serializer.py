@@ -1,4 +1,3 @@
-from dataclasses import field
 from rest_framework import serializers
 
 from .models import ProgrammingLanguage, Code
@@ -28,9 +27,3 @@ class CodeSerializer(serializers.ModelSerializer):
 class CodeRunResultSerializer(serializers.Serializer):
     unityURL = serializers.URLField()
     json_id = serializers.UUIDField()
-
-    # class Meta:
-    #     fields = (
-    #         "unity_url",
-    #         "json_id",
-    #     )
