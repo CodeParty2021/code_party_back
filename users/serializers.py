@@ -1,6 +1,6 @@
 from rest_framework import serializers
+
 from .models import User
-from firebase_admin import auth
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -8,3 +8,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
+
+
+class UserReadonlySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("id", "display_name", "picture")

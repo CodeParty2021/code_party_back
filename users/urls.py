@@ -1,6 +1,8 @@
 from django.urls import path
-from rest_framework import routers
-from .views import FirebaseAuthView
+from .views import FirebaseAuthView, UserRetrieveView
 
 
-urlpatterns = [path("auth", FirebaseAuthView.as_view())]
+urlpatterns = [
+    path("auth/", FirebaseAuthView.as_view()),
+    path("<pk>/", UserRetrieveView.as_view()),
+]

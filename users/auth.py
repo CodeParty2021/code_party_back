@@ -1,8 +1,9 @@
-from firebase_admin._auth_utils import InvalidIdTokenError
-from rest_framework.authentication import BaseAuthentication, get_authorization_header
 from rest_framework import exceptions
-from users.models import User
+from rest_framework.authentication import BaseAuthentication, get_authorization_header
 from firebase_admin import auth
+from firebase_admin._auth_utils import InvalidIdTokenError
+
+from .models import User
 
 
 # 認証クラスBaseAuthenticationを継承することでカスタムできる
@@ -11,9 +12,7 @@ class FirebaseAuthentication(BaseAuthentication):
     model = None
 
     def authenticate(self, request):
-        print("auth")
         auth_header = get_authorization_header(request).split()  # headerがここ
-        print(auth_header)
         # ログインの例外処理
         if not auth_header or auth_header[0].lower() != self.keyword.lower().encode():
             return None  # 認証なし
@@ -44,18 +43,18 @@ class FirebaseAuthentication(BaseAuthentication):
                 picture = decoded_token["picture"]
             else:
                 picture = ""
+
             try:  # ただのログイン
                 user = User.objects.get(pk=uid)
-                return (user, {"is_created": False})
+                return (user, {"created": False})
             except User.DoesNotExist:  # 新規登録したとき
                 user = User.objects.create(
                     id=uid, display_name=display_name, email=email, picture=picture
                 )
-                return (user, {"is_created": True})
+                return (user, {"created": True})
 
         except InvalidIdTokenError:
             msg = "不正なfirebaseTokenです。"
-            print(msg)
             raise exceptions.AuthenticationFailed(msg)
 
     def authenticate_header(self, request):
