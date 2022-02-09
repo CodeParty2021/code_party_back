@@ -17,7 +17,7 @@ class StageAPITests(TestCase):
     def test_get_user(self):
         """ID="testuid"のステージを取得"""
         # GET
-        response = self.client.get("/users/testuid", format="json")
+        response = self.client.get("/users/testuid/", format="json")
         # レスポンスのステータスコードをチェック
         self.assertEquals(response.status_code, 200)
         # jsonをデコード
