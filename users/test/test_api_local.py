@@ -11,8 +11,7 @@ class AuthAPITests(TestCase):
     def setUp(self):
         self.client = APIClient()
 
-        # 毎回トークンを生成すると
-        # token = self._generate_userToken()
+        # トークンは過去のものを使用
         token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImYyNGYzMTQ4MTk3ZWNlYTUyOTE3YzNmMTgzOGFiNWQ0ODg3ZWEwNzYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY29kZXBhcnR5YXV0aCIsImF1ZCI6ImNvZGVwYXJ0eWF1dGgiLCJhdXRoX3RpbWUiOjE2NDQ0MDU0MDgsInVzZXJfaWQiOiI1cVZOeUdzQndSYlA2c1RPTWdNb2p2OEpia3ExIiwic3ViIjoiNXFWTnlHc0J3UmJQNnNUT01nTW9qdjhKYmtxMSIsImlhdCI6MTY0NDQwNTQwOCwiZXhwIjoxNjQ0NDA5MDA4LCJlbWFpbCI6ImNvZGVwYXJ0eWVuam95QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJjb2RlcGFydHllbmpveUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.F0LusnEt27usvgqq6G45laXB3aSeyXh13AJvyckW_e01sw_9PxPMmbvOt0ECJbksG_xtx8JjYyFiqBpnCej05zmK2GYI3NmuyNr8B2MLNhUBFv8zGnmuf7ukkTxRzE7--Xtd0qvnaUfXUJhfewuUJJZQM2jUIYurcHNDExV_6FSQCVGnmVdUsA-tpHIfvyFtFuwXpGDKI1yVis10A9q9r2k4DZkO88eZyQ2gQG4tUx5VYXtQ_yu3yTTF98wvquQN84TlD1OVe9Qm8IzRuDGUTGGqOHWwbydrCyW7QiCcUMlyiI0bFDO83_4KigybEw5PB3tg8XaWKQuCqJFJ4E9Azw"
         self.client.credentials(HTTP_AUTHORIZATION="Bearer {}".format(token))
 
