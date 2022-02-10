@@ -4,11 +4,9 @@ from .models import Step
 
 
 class StepFilter(filters.FilterSet):
-    # ここでフィルターフィールドを定義
-    # 例
-    # name = filters.CharFilter(field_name="name", lookup_expr="contains")
-    # index = filters.NumberFilter()
-    # order_by = filters.OrderingFilter(fields=(("index", "index"),))
+    index = filters.NumberFilter()
+    order_by = filters.OrderingFilter(fields=(("index", "index"),))
+    stage = filters.NumberFilter(field_name="stage__id", lookup_expr="contains")
 
     class Meta:
         model = Step
