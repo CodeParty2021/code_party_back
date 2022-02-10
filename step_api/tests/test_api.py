@@ -9,6 +9,7 @@ class StepAPITests(TestCase):
         # クライアント作成(TODO:ログイン必須になった場合，修正が必要)
         self.client = APIClient(enforce_csrf_checks=True)
 
+        # データ準備
         world1=World.objects.create(
             name="World1",
             description="This is descriptions of world1.",
@@ -29,7 +30,7 @@ class StepAPITests(TestCase):
             movie_url="http://hoge.com/hogehoge2",
             world=world1,
         )
-        # データ準備
+
         self.client.post(
             "/steps/",
             {
