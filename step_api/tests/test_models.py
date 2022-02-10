@@ -4,7 +4,7 @@ from stage_api.models import Stage
 from world_api.models import World
 
 
-class WorldModelsTests(TestCase):
+class StepModelsTests(TestCase):
     def setUp(self):
 
         world1 = World.objects.create(
@@ -28,7 +28,6 @@ class WorldModelsTests(TestCase):
             world=world1,
         )
         Step.objects.create(
-            id=1,
             objective="達成条件はXXです",
             description="このステップではXXXします",
             index=10,
@@ -36,7 +35,6 @@ class WorldModelsTests(TestCase):
         )
 
         Step.objects.create(
-            id=2,
             objective="達成条件はZZZです",
             description="このステップではYYYします",
             index=20,
@@ -45,9 +43,8 @@ class WorldModelsTests(TestCase):
 
     def test_noraml_can_speak(self):
         """正常系テスト"""
-        test1 = Step.objects.get(id="1")
+        test1 = Step.objects.get(index="10")
         stage_get = Stage.objects.get(index="10")
-        self.assertEquals(test1.id, 1)
         self.assertEquals(test1.objective, "達成条件はXXです")
         self.assertEquals(test1.description, "このステップではXXXします")
         self.assertEquals(test1.index, 10)
@@ -55,9 +52,8 @@ class WorldModelsTests(TestCase):
 
     def test_animals_can_speak(self):
         """正常系テスト"""
-        test1 = Step.objects.get(id="2")
+        test1 = Step.objects.get(index="20")
         stage_get = Stage.objects.get(index="1")
-        self.assertEquals(test1.id, 2)
         self.assertEquals(test1.objective, "達成条件はZZZです")
         self.assertEquals(test1.description, "このステップではYYYします")
         self.assertEquals(test1.index, 20)
