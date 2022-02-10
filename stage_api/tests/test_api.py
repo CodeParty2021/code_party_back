@@ -9,13 +9,13 @@ class StageAPITests(TestCase):
         # クライアント作成(TODO:ログイン必須になった場合，修正が必要)
         self.client = APIClient(enforce_csrf_checks=True)
 
-        world1=World.objects.create(
+        world1 = World.objects.create(
             name="World1",
             description="This is descriptions of world1.",
             movie_url="http://hoge.com/hogehoge",
             index=10,
         )
-        world2=World.objects.create(
+        world2 = World.objects.create(
             name="World1",
             description="This is descriptions of world1.",
             movie_url="http://hoge.com/hogehoge",
@@ -27,8 +27,8 @@ class StageAPITests(TestCase):
             {
                 "index": 10,
                 "objective": "This is rules of stage1.",
-                "movieUrl":"http://hoge.com/hogehoge",
-                "world":world1.id
+                "movieUrl": "http://hoge.com/hogehoge",
+                "world": world1.id,
             },
             format="json",
         )
@@ -37,9 +37,9 @@ class StageAPITests(TestCase):
             {
                 "index": 1,
                 "objective": "ステージ２のルールです．",
-                "movieUrl":"http://world.com/worldworld",
-                "world":world2.id
-             },
+                "movieUrl": "http://world.com/worldworld",
+                "world": world2.id,
+            },
             format="json",
         )
 
@@ -61,16 +61,16 @@ class StageAPITests(TestCase):
                     "id": 1,
                     "index": 10,
                     "objective": "This is rules of stage1.",
-                    "movieUrl":"http://hoge.com/hogehoge",
-                    "world":world1_get.id,
+                    "movieUrl": "http://hoge.com/hogehoge",
+                    "world": world1_get.id,
                 },
                 {
                     "id": 2,
                     "index": 1,
                     "objective": "ステージ２のルールです．",
-                    "movieUrl":"http://world.com/worldworld",
-                    "world":world2_get.id,
-                }
+                    "movieUrl": "http://world.com/worldworld",
+                    "world": world2_get.id,
+                },
             ],
         )
 
@@ -90,24 +90,22 @@ class StageAPITests(TestCase):
                 "id": 1,
                 "index": 10,
                 "objective": "This is rules of stage1.",
-                "movieUrl":"http://hoge.com/hogehoge",
-                "world":world1_get.id,
+                "movieUrl": "http://hoge.com/hogehoge",
+                "world": world1_get.id,
             },
         )
 
     def test_getfiltered_examples_with_a_field(self):
         """フィルターでstage_idをソートして取得"""
-        #GET
+        # GET
         world1_get = World.objects.get(index="10")
         world2_get = World.objects.get(index="1")
-        response = self.client.get("/stages/", {
-            "order_by": "index"
-        }, format ="json")
-        #レスポンスのステータスコードをチェック
-        self.assertEquals(response.status_code,200)
-        #jsonをデコード
+        response = self.client.get("/stages/", {"order_by": "index"}, format="json")
+        # レスポンスのステータスコードをチェック
+        self.assertEquals(response.status_code, 200)
+        # jsonをデコード
         body = json.loads(response.content.decode("utf-8"))
-        #データチェック
+        # データチェック
         self.assertEquals(
             body,
             [
@@ -115,31 +113,29 @@ class StageAPITests(TestCase):
                     "id": 2,
                     "index": 1,
                     "objective": "ステージ２のルールです．",
-                    "movieUrl":"http://world.com/worldworld",
-                    "world":world2_get.id,
+                    "movieUrl": "http://world.com/worldworld",
+                    "world": world2_get.id,
                 },
                 {
                     "id": 1,
                     "index": 10,
                     "objective": "This is rules of stage1.",
-                    "movieUrl":"http://hoge.com/hogehoge",
-                    "world":world1_get.id,
-                },   
-            ]
+                    "movieUrl": "http://hoge.com/hogehoge",
+                    "world": world1_get.id,
+                },
+            ],
         )
 
     def test_getfiltered_examples_index(self):
         """indexが一致するものだけを取得"""
-        #GET
+        # GET
         world2_get = World.objects.get(index="1")
-        response = self.client.get("/stages/",{
-        "index":1
-        },format ="json")
-        #レスポンスのステータスコードをチェック
-        self.assertEquals(response.status_code,200)
-        #jsonをデコード
+        response = self.client.get("/stages/", {"index": 1}, format="json")
+        # レスポンスのステータスコードをチェック
+        self.assertEquals(response.status_code, 200)
+        # jsonをデコード
         body = json.loads(response.content.decode("utf-8"))
-        # データチェック        
+        # データチェック
         self.assertEquals(
             body,
             [
@@ -147,22 +143,20 @@ class StageAPITests(TestCase):
                     "id": 2,
                     "index": 1,
                     "objective": "ステージ２のルールです．",
-                    "movieUrl":"http://world.com/worldworld",
-                    "world":world2_get.id,
+                    "movieUrl": "http://world.com/worldworld",
+                    "world": world2_get.id,
                 }
             ],
         )
 
     def test_getfiltered_examples_world_id(self):
         """worldのidが一致するものだけを取得"""
-        #GET
+        # GET
         world1_get = World.objects.get(index="10")
-        response = self.client.get("/stages/",{
-        "world":world1_get.id
-        },format ="json")
-        #レスポンスのステータスコードをチェック
-        self.assertEquals(response.status_code,200)
-        #jsonをデコード
+        response = self.client.get("/stages/", {"world": world1_get.id}, format="json")
+        # レスポンスのステータスコードをチェック
+        self.assertEquals(response.status_code, 200)
+        # jsonをデコード
         body = json.loads(response.content.decode("utf-8"))
         # データチェック
         self.assertEquals(
@@ -172,9 +166,8 @@ class StageAPITests(TestCase):
                     "id": 1,
                     "index": 10,
                     "objective": "This is rules of stage1.",
-                    "movieUrl":"http://hoge.com/hogehoge",
-                    "world":world1_get.id,
+                    "movieUrl": "http://hoge.com/hogehoge",
+                    "world": world1_get.id,
                 }
             ],
         )
-
