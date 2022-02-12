@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     "users",
     "world_api",
     "stage_api",
+    "step_api",
     "rest_framework",
     "django_filters",
 ]
