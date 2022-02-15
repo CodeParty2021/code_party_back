@@ -1,15 +1,36 @@
+from dataclasses import field
 from rest_framework import serializers
 
-from .models import Code
+from .models import ProgrammingLanguage, Code
+
+
+class ProgrammingLanguageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProgrammingLanguage
+        fields = "__all__"
 
 
 class CodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Code
-        fields = "__all__"
-        read_only_fields = ("created_at", "updated_at")
+        fields = (
+            "id",
+            "code_content",
+            "created_at",
+            "updated_at",
+            "language",
+            "step",
+            "user",
+        )
+        read_only_fields = ("created_at", "updated_at", "user")
 
 
-class CodeRunResultSerializer(serializers.ModelSerializer):
-    unity_url = serializers.URLField()
-    json_id = serializers.IntegerField()
+class CodeRunResultSerializer(serializers.Serializer):
+    unityURL = serializers.URLField()
+    json_id = serializers.UUIDField()
+
+    # class Meta:
+    #     fields = (
+    #         "unity_url",
+    #         "json_id",
+    #     )

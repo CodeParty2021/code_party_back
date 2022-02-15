@@ -1,6 +1,11 @@
 from django.contrib import admin
 
-from .models import Code
+from .models import ProgrammingLanguage, Code
+
+
+@admin.register(ProgrammingLanguage)
+class ProgrammingLanguageAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(Code)

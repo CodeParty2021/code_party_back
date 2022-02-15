@@ -8,7 +8,7 @@ from users.models import User
 
 class CodeModelsTests(TestCase):
     def setUp(self):  # テストケース実行毎に実行される
-        #Step, Userの作成
+        # Step, Userの作成
         world = World.objects.create(
             name="World",
             description="This is descriptions of this world.",
@@ -27,12 +27,8 @@ class CodeModelsTests(TestCase):
             index=3,
             stage=stage,
         )
-        self.lang_python = ProgrammingLanguage.objects.create(
-            name = "Python"
-        )
-        self.lang_javascript = ProgrammingLanguage.objects.create(
-            name = "JavaScript"
-        )
+        self.lang_python = ProgrammingLanguage.objects.create(name="Python")
+        self.lang_javascript = ProgrammingLanguage.objects.create(name="JavaScript")
         self.user = User.objects.create(
             id="fawe;ojifa;woef",
             display_name="hello",
@@ -60,7 +56,7 @@ class CodeModelsTests(TestCase):
 
     def test_model_get_code1(self):
         """正常系テスト"""
-        test1 = Code.objects.get(id=self.test_id)
+        test1 = Code.objects.get(id=self.test_id1)
         # 色々チェック
         self.assertEquals(test1.code_content, "print('hello world!')")
         self.assertEquals(test1.language, self.lang_python)
@@ -69,7 +65,7 @@ class CodeModelsTests(TestCase):
 
     def test_model_get_code2(self):
         """正常系テスト"""
-        test2 = Code.objects.get(id=self.test_id)
+        test2 = Code.objects.get(id=self.test_id2)
         # 色々チェック
         self.assertEquals(test2.code_content, "Alert('hello world!')")
         self.assertEquals(test2.language, self.lang_javascript)

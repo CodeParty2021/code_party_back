@@ -14,7 +14,7 @@ class WorldAPITests(TestCase):
                 "name": "World1",
                 "description": "This is descriptions of world1.",
                 "movie_url": "http://hoge.com/hogehoge",
-                "index": 10
+                "index": 10,
             },
             format="json",
         )
@@ -24,7 +24,7 @@ class WorldAPITests(TestCase):
                 "name": "ワールド3",
                 "description": "ワールド３の説明です．",
                 "movie_url": "http://world3.com/",
-                "index": 2
+                "index": 2,
             },
             format="json",
         )
@@ -34,7 +34,7 @@ class WorldAPITests(TestCase):
                 "name": "ワールド2",
                 "description": "ワールド２の説明です．",
                 "movie_url": "http://world.com/worldworld",
-                "index": 1
+                "index": 1,
             },
             format="json",
         )
@@ -56,21 +56,21 @@ class WorldAPITests(TestCase):
                     "name": "World1",
                     "description": "This is descriptions of world1.",
                     "movieUrl": "http://hoge.com/hogehoge",
-                    "index": 10
+                    "index": 10,
                 },
                 {
                     "id": 2,
                     "name": "ワールド3",
                     "description": "ワールド３の説明です．",
                     "movieUrl": "http://world3.com/",
-                    "index": 2
+                    "index": 2,
                 },
                 {
                     "id": 3,
                     "name": "ワールド2",
                     "description": "ワールド２の説明です．",
                     "movieUrl": "http://world.com/worldworld",
-                    "index": 1
+                    "index": 1,
                 },
             ],
         )
@@ -91,17 +91,16 @@ class WorldAPITests(TestCase):
                 "name": "World1",
                 "description": "This is descriptions of world1.",
                 "movieUrl": "http://hoge.com/hogehoge",
-                "index": 10
+                "index": 10,
             },
         )
 
     def test_get_filtered_worlds_with_name(self):
         """name=ワールド でフィルターしてワールドをソートして取得"""
         # GET
-        response = self.client.get("/worlds/", {
-            "name": "ワールド",
-            "order_by": "index"
-        }, format="json")
+        response = self.client.get(
+            "/worlds/", {"name": "ワールド", "order_by": "index"}, format="json"
+        )
         # レスポンスのステータスコードをチェック
         self.assertEquals(response.status_code, 200)
         # jsonをデコード
@@ -115,14 +114,14 @@ class WorldAPITests(TestCase):
                     "name": "ワールド2",
                     "description": "ワールド２の説明です．",
                     "movieUrl": "http://world.com/worldworld",
-                    "index": 1
+                    "index": 1,
                 },
                 {
                     "id": 2,
                     "name": "ワールド3",
                     "description": "ワールド３の説明です．",
                     "movieUrl": "http://world3.com/",
-                    "index": 2
+                    "index": 2,
                 },
-            ]
+            ],
         )

@@ -1,11 +1,20 @@
-from rest_framework import viewsets
-from rest_framework.decorators import detail_route
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from .models import Code
-from .serializer import CodeSerializer, CodeRunResultSerializer
+from .models import ProgrammingLanguage, Code
+from .serializer import (
+    ProgrammingLanguageSerializer,
+    CodeSerializer,
+    CodeRunResultSerializer,
+)
 from .permission import IsOwnerOrReadOnlyPermission
 from .filter import CodeFilter
+
+
+class ProgrammingLanguageViewSet(viewsets.ModelViewSet):
+    queryset = ProgrammingLanguage.objects.all()
+    serializer_class = ProgrammingLanguageSerializer
 
 
 class CodeViewSet(viewsets.ModelViewSet):
@@ -17,17 +26,25 @@ class CodeViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-    @detail_route(methods=["get"])
+    @action(detail=True, methods=["get"], permission_classes=[])
     def run(self, request, pk=None):
         # シミュレータの実行
+        print(f"{pk} is being simulated!")
+
+        # resultモデルへ結果を格納
 
         # 戻り値の準備
-        unity_url = "Unity url"
-        json_id = "json_id"
+        unity_url = "http://Unity.com/"
+        json_id = "f0ea866e-27b8-4217-8bba-deea776b7adc"
 
-        serializer = CodeRunResultSerializer(data={
-          "unityURL" : unity_url,
-          "json_id" : json_id,
-        })
+        serializer = CodeRunResultSerializer(
+            data={
+                "unityURL": unity_url,
+                "json_id": json_id,
+            }
+        )
 
-        return Response(serializer.data)
+        if serializer.is_valid():
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
