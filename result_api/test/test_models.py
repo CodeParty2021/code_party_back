@@ -8,7 +8,7 @@ from result_api.models import Result
 from users.models import User
 
 
-class CodeModelsTests(TestCase):
+class ResultModelsTests(TestCase):
     def setUp(self):  # テストケース実行毎に実行される
         # Step, Userの作成
         world = World.objects.create(
@@ -65,14 +65,14 @@ class CodeModelsTests(TestCase):
         result1 = Result.objects.create(
             json_path="/result/0001.json",
             step=self.step,
-            codes=[self.code1, self.code2, self.code3],
         )
+        result1.codes.set([self.code1, self.code2, self.code3])
 
         result2 = Result.objects.create(
             json_path="/result/0002.json",
             step=self.step,
-            codes=[self.code2, self.code3, self.code4],
         )
+        result2.codes.set([self.code2, self.code3, self.code4])
 
         self.test_id1 = result1.id
         self.test_id2 = result2.id
@@ -83,18 +83,20 @@ class CodeModelsTests(TestCase):
         # 色々チェック
         self.assertEquals(test1.json_path, "/result/0001.json")
         self.assertEquals(test1.step, self.step)
-        self.assertContains(test1.codes, self.code1)
-        self.assertContains(test1.codes, self.code2)
-        self.assertContains(test1.codes, self.code3)
-        self.assertNotContains(test1.codes, self.code4)
+        codes = list(test1.codes.all())
+        self.assertEquals(self.code1 in codes, True)
+        self.assertEquals(self.code2 in codes, True)
+        self.assertEquals(self.code3 in codes, True)
+        self.assertEquals(self.code4 in codes, False)
 
     def test_model_get_code2(self):
         """正常系テスト"""
-        test2 = Code.objects.get(id=self.test_id2)
+        test2 = Result.objects.get(id=self.test_id2)
         # 色々チェック
         self.assertEquals(test2.json_path, "/result/0002.json")
         self.assertEquals(test2.step, self.step)
-        self.assertNotContains(test2.codes, self.code1)
-        self.assertContains(test2.codes, self.code2)
-        self.assertContains(test2.codes, self.code3)
-        self.assertContains(test2.codes, self.code4)
+        codes = list(test2.codes.all())
+        self.assertEquals(self.code1 in codes, False)
+        self.assertEquals(self.code2 in codes, True)
+        self.assertEquals(self.code3 in codes, True)
+        self.assertEquals(self.code4 in codes, True)
