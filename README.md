@@ -67,3 +67,10 @@ coverage run --source='.' manage.py test
     DATABASE_URL=postgres://[User]:[Password]@localhost/[Database Name]
     ```
 4. code_party_back/local_settings.pyの下らへんのコメントアウトを外す
+
+## ユーザ認証のテスト
+ユーザ認証テストは自動化出来なかったのでコマンドでテストできるようにしました．以下のコマンドを実行することで，ローカル及び本番環境でユーザ認証のテストが出来ます．※テストを実行すると，テストユーザーがデータベースに追加されます．
+
+```
+python manage.py auth_test
+```
