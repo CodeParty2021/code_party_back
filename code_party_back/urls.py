@@ -23,4 +23,6 @@ urlpatterns = [
     path("stages/", include("stage_api.urls")),
     path("worlds/", include("world_api.urls")),
     path("steps/", include("step_api.urls")),
+    path("codes/", include("code_api.urls")),
+    path("results/", include("result_api.urls")),
 ]

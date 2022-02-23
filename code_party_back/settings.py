@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+from telnetlib import AUTHENTICATION
 from firebase_admin import credentials
 import firebase_admin
 import os
@@ -51,9 +52,9 @@ firebase_admin.initialize_app(cred)
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOST = ["localhost", "code-party-back.herokuapp.com"]
+ALLOWED_HOST = ["code-party-back.herokuapp.com"]
 
 # Application definition
 
@@ -65,11 +66,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "corsheaders",  # Django CORS Headers
-    "testapp",
     "users",
     "world_api",
     "stage_api",
     "step_api",
+    "code_api",
+    "result_api",
     "rest_framework",
     "django_filters",
 ]
@@ -135,7 +137,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": (
         "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
@@ -149,6 +150,11 @@ REST_FRAMEWORK = {
         # Any other parsers
     ),
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+        "users.auth.FirebaseAuthentication",
+    ),
 }
 
 # Internationalization
