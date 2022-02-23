@@ -4,7 +4,7 @@ from users.models import User
 import json
 
 
-class StageAPITests(TestCase):
+class UserAPITests(TestCase):
     def setUp(self):  # テストケース実行毎に実行される
         # クライアント作成(TODO:ログイン必須になった場合，修正が必要)
         self.client = APIClient(enforce_csrf_checks=True)
