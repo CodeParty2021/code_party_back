@@ -1,9 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
-# 既存userとコンフリクトするので
-
 
 class User(models.Model):
     id = models.CharField(
