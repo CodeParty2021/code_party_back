@@ -15,7 +15,7 @@ class WorldAPITests(TestCase):
             display_name="hello",
             email="feaw@fawe.com",
             picture="http://localhost:8000/users/auth",
-            is_staff =True,
+            is_stuff=True,
         )
         # ユーザ強制ログイン
         self.client.force_authenticate(user=self.user1)

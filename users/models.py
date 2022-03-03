@@ -8,4 +8,4 @@ class User(models.Model):
     display_name = models.CharField(max_length=64)  # 表示名
     email = models.EmailField()
     picture = models.CharField(max_length=300)  # ユーザー画像, firebase上に存在
-    is_staff = models.BooleanField(default=False)  # ユーザーがスタッフユーザーでない
+    is_stuff = models.BooleanField(default=False)  # ユーザーがスタッフユーザーでない
