@@ -5,10 +5,23 @@ from stage_api.models import Stage
 import json
 
 
+from users.models import User
+
+
 class StepAPITests(TestCase):
     def setUp(self):  # テストケース実行毎に実行される
         # クライアント作成(TODO:ログイン必須になった場合，修正が必要)
         self.client = APIClient(enforce_csrf_checks=True)
+
+        self.user1 = User.objects.create(
+            id="fawe;ojifa;woef",
+            display_name="hello",
+            email="feaw@fawe.com",
+            picture="http://localhost:8000/users/auth",
+            is_stuff=True,
+        )
+        # ユーザ強制ログイン
+        self.client.force_authenticate(user=self.user1)
 
         # データ準備
         world1 = World.objects.create(
@@ -53,6 +66,9 @@ class StepAPITests(TestCase):
             format="json",
         )
 
+        # ログアウト
+        self.client.logout()
+
     def test_get_list_of_all_steps(self):  # testメソッドはtest_から始めること
         """全ステップのリストを取得"""
         # GET
@@ -86,9 +102,16 @@ class StepAPITests(TestCase):
 
     def test_get_one_step(self):
         """ID=1のステップを取得"""
+        # ユーザ強制ログイン
+        self.client.force_authenticate(user=self.user1)
         # GET
         stage1_get = Stage.objects.get(index="10")
+
         response = self.client.get("/steps/1/", format="json")
+
+        # ログアウト
+        self.client.logout()
+
         # レスポンスのステータスコードをチェック
         self.assertEquals(response.status_code, 200)
         # jsonをデコード
