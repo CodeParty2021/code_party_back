@@ -3,11 +3,23 @@ from rest_framework.test import APIRequestFactory, APIClient
 from world_api.models import World
 import json
 
+from users.models import User
+
 
 class StageAPITests(TestCase):
     def setUp(self):  # テストケース実行毎に実行される
         # クライアント作成(TODO:ログイン必須になった場合，修正が必要)
         self.client = APIClient(enforce_csrf_checks=True)
+
+        self.user1 = User.objects.create(
+            id="fawe;ojifa;woef",
+            display_name="hello",
+            email="feaw@fawe.com",
+            picture="http://localhost:8000/users/auth",
+            is_stuff=True,
+        )
+        # ユーザ強制ログイン
+        self.client.force_authenticate(user=self.user1)
 
         world1 = World.objects.create(
             name="World1",
@@ -42,6 +54,9 @@ class StageAPITests(TestCase):
             },
             format="json",
         )
+
+        # ログアウト
+        self.client.logout()
 
     def test_get_list_of_all_stages(self):  # testメソッドはtest_から始めること
         """全ステージのリストを取得"""
@@ -78,7 +93,13 @@ class StageAPITests(TestCase):
         """ID=1のステージを取得"""
         # GET
         world1_get = World.objects.get(index="10")
+        # ユーザ強制ログイン
+        self.client.force_authenticate(user=self.user1)
         response = self.client.get("/stages/1/", format="json")
+
+        # ログアウト
+        self.client.logout()
+        
         # レスポンスのステータスコードをチェック
         self.assertEquals(response.status_code, 200)
         # jsonをデコード

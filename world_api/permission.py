@@ -1,7 +1,4 @@
-import imp
 from rest_framework import permissions
-
-from users.models import User
 
 
 class IsStuffOrReadOnlyPermission(permissions.BasePermission):
