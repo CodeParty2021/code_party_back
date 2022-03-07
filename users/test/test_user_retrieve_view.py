@@ -29,6 +29,6 @@ class UserAPITests(TestCase):
                 "id": "testuid",
                 "displayName": "test user",
                 "picture": "https://hoge.com/",
-                "isStuff": False,
+                "isStaff": False,
             },
         )

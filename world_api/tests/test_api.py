@@ -15,7 +15,14 @@ class WorldAPITests(TestCase):
             display_name="hello",
             email="feaw@fawe.com",
             picture="http://localhost:8000/users/auth",
-            is_stuff=True,
+            is_staff=True,
+        )
+
+        self.user2 = User.objects.create(
+            id="fawe;oasdfa;woef",
+            display_name="hello_user2",
+            email="feawaaaaa@fawe.com",
+            picture="http://localhost:8000/users/auth",
         )
         # ユーザ強制ログイン
         self.client.force_authenticate(user=self.user1)
@@ -53,6 +60,8 @@ class WorldAPITests(TestCase):
 
         # ログアウト
         self.client.logout()
+
+        
 
     def test_get_list_of_all_worlds(self):
         """全ワールドのリストを取得"""
@@ -144,3 +153,35 @@ class WorldAPITests(TestCase):
                 },
             ],
         )
+
+    def test_update_invalid_user(self):
+        """staff以外が編集しようとした時にアクセスを拒否する"""
+        # ユーザ1としてログイン
+        self.client.force_authenticate(user=self.user1)
+        # ステージ1の編集
+        world_edit_user = self.client.patch(
+            f"/worlds/1/",
+            {"objective": "print('update!')"},
+            format="json",
+        )
+
+        # ログアウト
+        self.client.logout()
+    
+        # ユーザ2としてログイン
+        self.client.force_authenticate(user=self.user2)
+        world_view = self.client.get(f"/worlds/1/", format="json")
+        # データ3の編集
+        world_edit_no_stuff = self.client.patch(
+            f"/worlds/1/",
+            {"name": "print('update2!')"},
+            format="json",
+        )
+        # データ3の削除
+        world_delete_no_stuff = self.client.delete(f"/worlds/1/", format="json")
+
+        # データチェック
+        self.assertEquals(world_edit_user.status_code, 200)  # Staffなので編集OK
+        self.assertEquals(world_view.status_code, 200)  # Staffではないが閲覧だけなのでOK
+        self.assertEquals(world_edit_no_stuff.status_code, 403)  # Staffじゃないので編集できない
+        self.assertEquals(world_delete_no_stuff.status_code, 403)  # Staffじゃないので削除できない

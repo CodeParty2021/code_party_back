@@ -48,6 +48,15 @@ class CodeAPITests(TestCase):
             display_name="hello",
             email="feaw@fawe.com",
             picture="http://localhost:8000/users/auth",
+            is_staff=True,
+        )
+
+        #二人目のユーザ
+        self.user2 = User.objects.create(
+            id="fawe;oasdfa;woef",
+            display_name="hello_user2",
+            email="feawaaaaa@fawe.com",
+            picture="http://localhost:8000/users/auth",
         )
 
         # ユーザ強制ログイン
@@ -73,13 +82,6 @@ class CodeAPITests(TestCase):
             format="json",
         )
 
-        # 二人目のユーザ
-        self.user2 = User.objects.create(
-            id="aksjdfj;a;sdkfj;",
-            display_name="test user 2",
-            email="sadwer@asdjkfk.com",
-            picture="http://localhost:8000/",
-        )
 
         # ユーザ強制ログイン
         self.client.force_authenticate(user=self.user2)
