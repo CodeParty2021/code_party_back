@@ -221,7 +221,7 @@ class StageAPITests(TestCase):
 
         # ログアウト
         self.client.logout()
-    
+
         # ユーザ2としてログイン
         self.client.force_authenticate(user=self.user2)
         stage_view = self.client.get(f"/stages/1/", format="json")

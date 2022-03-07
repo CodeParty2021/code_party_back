@@ -7,11 +7,8 @@ from .filter import StageFilter
 from .permission import IsStuffOrReadOnlyPermission
 
 
-
 class StageViewSet(viewsets.ModelViewSet):
     queryset = Stage.objects.all()
     serializer_class = StageSerializer
     filter_class = StageFilter
     permission_classes = (IsStuffOrReadOnlyPermission,)
-
-

@@ -9,4 +9,3 @@ class IsStuffOrReadOnlyPermission(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj) -> bool:
         return True
-        

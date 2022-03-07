@@ -61,8 +61,6 @@ class WorldAPITests(TestCase):
         # ログアウト
         self.client.logout()
 
-        
-
     def test_get_list_of_all_worlds(self):
         """全ワールドのリストを取得"""
         # GET
@@ -167,7 +165,7 @@ class WorldAPITests(TestCase):
 
         # ログアウト
         self.client.logout()
-    
+
         # ユーザ2としてログイン
         self.client.force_authenticate(user=self.user2)
         world_view = self.client.get(f"/worlds/1/", format="json")

@@ -226,7 +226,7 @@ class StepAPITests(TestCase):
 
         # ログアウト
         self.client.logout()
-    
+
         # ユーザ2としてログイン
         self.client.force_authenticate(user=self.user2)
         step_view = self.client.get(f"/steps/1/", format="json")

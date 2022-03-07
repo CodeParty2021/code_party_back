@@ -51,7 +51,7 @@ class CodeAPITests(TestCase):
             is_staff=True,
         )
 
-        #二人目のユーザ
+        # 二人目のユーザ
         self.user2 = User.objects.create(
             id="fawe;oasdfa;woef",
             display_name="hello_user2",
@@ -81,7 +81,6 @@ class CodeAPITests(TestCase):
             },
             format="json",
         )
-
 
         # ユーザ強制ログイン
         self.client.force_authenticate(user=self.user2)

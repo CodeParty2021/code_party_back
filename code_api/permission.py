@@ -11,6 +11,7 @@ class IsOwnerOrReadOnlyPermission(permissions.BasePermission):
         # オブジェクト操作系は所有者のみ有効
         return obj.user == request.user
 
+
 class IsStuffOrReadOnlyPermission(permissions.BasePermission):
     def has_permission(self, request, view):
         if request.method in permissions.SAFE_METHODS:
