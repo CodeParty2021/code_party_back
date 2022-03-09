@@ -36,7 +36,7 @@ class Command(BaseCommand):
         # jsonをデコード
         data = json.loads(response.content.decode("utf-8"))
         # データチェック
-        if data["userInfo"]["id"] == "5qVNyGsBwRbP6sTOMgMojv8Jbkq1":
+        if data["userInfo"]["id"]:
             self.stdout.write("ユーザ情報: 正常に取得できました．")
         else:
             self.stdout.write("ユーザ情報: 取得できませんでした．")
