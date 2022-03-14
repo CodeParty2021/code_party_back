@@ -11,7 +11,7 @@ from .serializer import (
     CodeRunResultSerializer,
 )
 from .permission import IsOwnerOrReadOnlyPermission
-from .permission import IsStuffOrReadOnlyPermission
+from .permission import IsStaffOrReadOnlyPermission
 from .filter import CodeFilter
 from result_api.models import Result
 
@@ -19,7 +19,7 @@ from result_api.models import Result
 class ProgrammingLanguageViewSet(viewsets.ModelViewSet):
     queryset = ProgrammingLanguage.objects.all()
     serializer_class = ProgrammingLanguageSerializer
-    permission_classes = (IsStuffOrReadOnlyPermission,)
+    permission_classes = (IsStaffOrReadOnlyPermission,)
 
 
 class CodeViewSet(viewsets.ModelViewSet):

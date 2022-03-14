@@ -299,8 +299,19 @@ class CodeAPITests(TestCase):
         # データ3の削除
         data3_delete = self.client.delete(f"/codes/{self.test_id3}/", format="json")
 
+        # ログアウト
+        self.client.logout()
+
+        # ユーザなしでのデータ3の編集
+        data3_edit_Annonimous = self.client.post(
+            f"/codes/{self.test_id3}/",
+            {"codeContent": "print('update!')"},
+            format="json",
+        )
+
         # データチェック
         self.assertEquals(data1_edit.status_code, 200)  # 所有者なので編集OK
         self.assertEquals(data3_view.status_code, 200)  # 所有者ではないが閲覧だけなのでOK
         self.assertEquals(data3_edit.status_code, 403)  # 所有者じゃないので編集できない
         self.assertEquals(data3_delete.status_code, 403)  # 所有者じゃないので削除できない
+        self.assertEquals(data3_edit_Annonimous.status_code, 401)  # ログインユーザーでなく不正な操作である
