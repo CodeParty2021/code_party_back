@@ -186,9 +186,12 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "https://codeparty.netlify.app",
 ]
-CORS_ORIGIN_WHITELIST.extend(
-    [f"https://deploy-preview-{str(i)}--codeparty.netlify.app" for i in range(100)]
-)
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"(https://deploy-preview-){1}[0-9]+(--codeparty.netlify.app)"
+]
+
+
 # heroku
 # if "/app" in os.environ["HOME"]:
 #     import django_heroku
