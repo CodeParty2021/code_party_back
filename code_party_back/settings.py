@@ -185,6 +185,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # TODO: 本番環境のURLを追加
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
+    "https://codeparty.netlify.app",
+    r"(https://deploy-preview-){1}[0-9]+(--codeparty.netlify.app/)",
+    "https://deploy-preview-24--codeparty.netlify.app/",
 ]
 # heroku
 # if "/app" in os.environ["HOME"]:
