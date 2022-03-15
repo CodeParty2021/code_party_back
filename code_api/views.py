@@ -1,6 +1,5 @@
 import os, random, json
 from rest_framework import status, viewsets
-from rest_framework.exceptions import NotFound
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -33,27 +32,36 @@ class CodeViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["get"], permission_classes=[])
     def run(self, request, pk=None):
-        # コードの取得
+        MAX_PLAYER = 4
         queryset = self.get_queryset()
-        code = queryset.get(id=pk)
-        if not code:  # チェック
-            return Response({"detail": "リソースが見つかりません。"}, status.HTTP_400_BAD_REQUEST)
+        codeids = [pk]  # リソースのIDをシミュレーション対象コードに追加する
 
-        # コードをランダムに３件取得
+        # GETパラメータに指定されたコードを取得
+        for i in range(1, MAX_PLAYER):
+            if f"p{i}" in request.GET:
+                codeids.append(request.GET.get(f"p{i}"))
+
+        # コードを4件になるまでランダムに補充
         try:
-            other_codes = [
-                queryset.get(id=uuid[0])
-                for uuid in random.sample(list(queryset.values_list("id")), 3)
-            ]
+            allCodes = set([uuid[0].urn[9:] for uuid in queryset.values_list("id")])
+            allCodes = allCodes - set(codeids)
+            codeids.extend(random.sample(list(allCodes), MAX_PLAYER - len(codeids)))
         except ValueError:
             return Response({"detail": "コードのリソース数が足りません。"}, status.HTTP_400_BAD_REQUEST)
-        codes = [code, *other_codes]  # シミュレーションを実行するプログラム
+
+        # コードを取得
+        codes = []
+        try:
+            for codeid in codeids:
+                codes.append(queryset.get(id=codeid))
+        except:
+            return Response({"detail": "リソースが見つかりません。"}, status.HTTP_400_BAD_REQUEST)
 
         # シミュレータ実行
         result_data = {"result": "done"}
 
         # resultモデルへ結果を格納
-        result = Result.objects.create(json_path="dummy", step=code.step)
+        result = Result.objects.create(json_path="dummy", step=codes[0].step)
         result.codes.set(codes)
         json_directory = "/tmp/result"
         json_filename = f"{json_directory}/{result.id}.json"
