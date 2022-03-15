@@ -5,7 +5,7 @@ from rest_framework.test import APIClient
 from world_api.models import World
 from stage_api.models import Stage
 from step_api.models import Step
-from code_api.models import ProgrammingLanguage
+from code_api.models import Code, ProgrammingLanguage
 from users.models import User
 
 
@@ -319,34 +319,22 @@ class CodeAPITests(TestCase):
     def test_run_code(self):
         """code/:id/runを実行し，実行結果を確認する．"""
         # テストデータが足りないのでデータを追加
-        # ユーザ強制ログイン
-        self.client.force_authenticate(user=self.user1)
-
-        # データ準備
-        self.client.post(
-            "/codes/",
-            {
-                "code_content": "print('for run codes')",
-                "language": self.lang_python.id,
-                "step": self.step2.id,
-            },
-            format="json",
+        Code.objects.create(
+            code_content="print('for run code1')",
+            language=self.lang_python,
+            step=self.step2,
+            user=self.user1,
         )
-        self.client.post(
-            "/codes/",
-            {
-                "code_content": "Alert('for run codes')",
-                "language": self.lang_javascript.id,
-                "step": self.step1.id,
-            },
-            format="json",
+        Code.objects.create(
+            code_content="Alert('for run code2')",
+            language=self.lang_javascript,
+            step=self.step2,
+            user=self.user1,
         )
-        # ログアウト
-        self.client.logout()
 
         # code/:id/runを実行
         response1 = self.client.get(
-            f"/codes/{self.test_id1}/run/", {"p1": self.test_id2}
+            f"/codes/{self.test_id2}/run/", {"p1": self.test_id3}
         )
         # レスポンスのステータスコードをチェック
         self.assertEquals(response1.status_code, 200)
@@ -361,5 +349,7 @@ class CodeAPITests(TestCase):
         # jsonをデコード
         body2 = json.loads(response2.content.decode("utf-8"))
         # 指定したコードが入っているか確認
-        self.assertEquals(self.test_id1 in body2["codes"], True)
         self.assertEquals(self.test_id2 in body2["codes"], True)
+        self.assertEquals(self.test_id3 in body2["codes"], True)
+        # step2のコードを使用したのでstep1のコードは入らない
+        self.assertEquals(self.test_id1 in body2["codes"], False)

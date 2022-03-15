@@ -35,6 +35,11 @@ class CodeViewSet(viewsets.ModelViewSet):
         MAX_PLAYER = 4
         queryset = self.get_queryset()
         codeids = [pk]  # リソースのIDをシミュレーション対象コードに追加する
+        step = None
+        try:
+            step = queryset.get(id=pk).step
+        except:
+            return Response({"detail": "不正なIDです。"}, status.HTTP_400_BAD_REQUEST)
 
         # GETパラメータに指定されたコードを取得
         for i in range(1, MAX_PLAYER):
@@ -43,7 +48,12 @@ class CodeViewSet(viewsets.ModelViewSet):
 
         # コードを4件になるまでランダムに補充
         try:
-            allCodes = set([uuid[0].urn[9:] for uuid in queryset.values_list("id")])
+            allCodes = set(
+                [
+                    uuid[0].urn[9:]
+                    for uuid in queryset.filter(step=step).values_list("id")
+                ]
+            )
             allCodes = allCodes - set(codeids)
             codeids.extend(random.sample(list(allCodes), MAX_PLAYER - len(codeids)))
         except ValueError:
@@ -53,7 +63,9 @@ class CodeViewSet(viewsets.ModelViewSet):
         codes = []
         try:
             for codeid in codeids:
-                codes.append(queryset.get(id=codeid))
+                codes.append(
+                    queryset.get(id=codeid, step=step)
+                )  # 指定されたコードが同じステップのものかを取得
         except:
             return Response({"detail": "リソースが見つかりません。"}, status.HTTP_400_BAD_REQUEST)
 

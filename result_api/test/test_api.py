@@ -193,6 +193,20 @@ class ResultAPITests(TestCase):
 
     def test_run_code_and_get_result(self):
         """code/:id/runを実行し，resultのjsonを取得する"""
+        # テストデータが足りないのでデータを追加
+        Code.objects.create(
+            code_content="print('for run code1')",
+            language=self.lang_python,
+            step=self.step1,
+            user=self.user,
+        )
+        Code.objects.create(
+            code_content="print('for run code2')",
+            language=self.lang_python,
+            step=self.step1,
+            user=self.user,
+        )
+
         # code/:id/runを実行
         response1 = self.client.get(f"/codes/{self.code1.id.urn[9:]}/run/")
         # レスポンスのステータスコードをチェック
