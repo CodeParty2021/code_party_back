@@ -13,4 +13,4 @@ class UserSerializer(serializers.ModelSerializer):
 class UserReadonlySerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("id", "display_name", "picture")
+        fields = ("id", "display_name", "picture", "is_staff")

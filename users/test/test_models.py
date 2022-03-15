@@ -18,3 +18,4 @@ class UserModelsTests(TestCase):
         self.assertEquals(test1.display_name, "hello")
         self.assertEquals(test1.email, "feaw@fawe.com")
         self.assertEquals(test1.picture, "http://localhost:8000/users/auth")
+        self.assertEquals(test1.is_staff, False)

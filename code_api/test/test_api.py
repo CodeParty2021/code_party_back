@@ -48,6 +48,15 @@ class CodeAPITests(TestCase):
             display_name="hello",
             email="feaw@fawe.com",
             picture="http://localhost:8000/users/auth",
+            is_staff=True,
+        )
+
+        # 二人目のユーザ
+        self.user2 = User.objects.create(
+            id="fawe;oasdfa;woef",
+            display_name="hello_user2",
+            email="feawaaaaa@fawe.com",
+            picture="http://localhost:8000/users/auth",
         )
 
         # ユーザ強制ログイン
@@ -71,14 +80,6 @@ class CodeAPITests(TestCase):
                 "step": self.step2.id,
             },
             format="json",
-        )
-
-        # 二人目のユーザ
-        self.user2 = User.objects.create(
-            id="aksjdfj;a;sdkfj;",
-            display_name="test user 2",
-            email="sadwer@asdjkfk.com",
-            picture="http://localhost:8000/",
         )
 
         # ユーザ強制ログイン
@@ -298,8 +299,19 @@ class CodeAPITests(TestCase):
         # データ3の削除
         data3_delete = self.client.delete(f"/codes/{self.test_id3}/", format="json")
 
+        # ログアウト
+        self.client.logout()
+
+        # ユーザなしでのデータ3の編集
+        data3_edit_Annonimous = self.client.post(
+            f"/codes/{self.test_id3}/",
+            {"codeContent": "print('update!')"},
+            format="json",
+        )
+
         # データチェック
         self.assertEquals(data1_edit.status_code, 200)  # 所有者なので編集OK
         self.assertEquals(data3_view.status_code, 200)  # 所有者ではないが閲覧だけなのでOK
         self.assertEquals(data3_edit.status_code, 403)  # 所有者じゃないので編集できない
         self.assertEquals(data3_delete.status_code, 403)  # 所有者じゃないので削除できない
+        self.assertEquals(data3_edit_Annonimous.status_code, 401)  # ログインユーザーでなく不正な操作である
