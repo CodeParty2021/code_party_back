@@ -94,11 +94,7 @@ class CodeViewSet(viewsets.ModelViewSet):
         json_id = result.id
 
         serializer = CodeRunResultSerializer(
-            data={
-                "unityURL": unity_url,
-                "json_id": json_id,
-                "json": result_data
-            }
+            data={"unityURL": unity_url, "json_id": json_id, "json": result_data}
         )
 
         if serializer.is_valid():
