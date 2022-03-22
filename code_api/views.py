@@ -25,6 +25,22 @@ class ProgrammingLanguageViewSet(viewsets.ModelViewSet):
     permission_classes = (IsStaffOrReadOnlyPermission,)
 
 
+def execute_code(codes):
+    codes_str = [c.code_content for c in codes]
+    # コードを関数オブジェクト化
+    python_objects = []
+    for code_str in codes_str:
+        print(code_str)
+        exec(code_str, globals())
+        python_objects += [select]
+
+    # シミュレータ実行
+    option = sqare_paint.Option(user_code=python_objects)
+    result_data = sqare_paint.start(option)
+
+    return result_data
+
+
 class CodeViewSet(viewsets.ModelViewSet):
     queryset = Code.objects.all()
     serializer_class = CodeSerializer
@@ -65,17 +81,51 @@ class CodeViewSet(viewsets.ModelViewSet):
             return Response({"detail": "コードのリソース数が足りません。"}, status.HTTP_400_BAD_REQUEST)
 
         codes = [code, *other_codes]  # シミュレーションを実行するプログラム
-        codes_str = [c.code_content for c in codes]
-        # コードを関数オブジェクト化
-        python_objects = []
-        for code_str in codes_str:
-            print(code_str)
-            exec(code_str, globals())
-            python_objects += [select]
+        result_data = execute_code(codes)
 
-        # シミュレータ実行
-        option = sqare_paint.Option(user_code=python_objects)
-        result_data = sqare_paint.start(option)
+        # resultモデルへ結果を格納
+        result = Result.objects.create(json_path="dummy", step=code.step)
+        result.codes.set(codes)
+        json_directory = "/tmp/result"
+        json_filename = f"{json_directory}/{result.id}.json"
+        result.json_path = json_filename
+        result.save()
+
+        # シミュレーション結果ファイルの保存
+        os.makedirs("/tmp/result/", exist_ok=True)
+        with open(json_filename, "x", encoding="UTF-8") as wf:
+            wf.write(json.dumps(result_data))
+
+        # 戻り値の準備
+        unity_url = "http://localhost:3000/unity/sp/"
+        json_id = result.id
+
+        serializer = CodeRunResultSerializer(
+            data={"unityURL": unity_url, "json_id": json_id, "json": result_data}
+        )
+
+        if serializer.is_valid():
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+
+#curl -X POST -H "Content-Type: application/json" -d '{"code":["afe75f3e-8cda-4972-8845-2fc8cb56ec7b","afe75f3e-8cda-4972-8845-2fc8cb56ec7b","afe75f3e-8cda-4972-8845-2fc8cb56ec7b","afe75f3e-8cda-4972-8845-2fc8cb56ec7b"]}' https://localhost:8000/codes/run
+    @action(detail=True, methods=["post"], permission_classes=[])
+    def run(self, request):
+        # コードの取得
+        queryset = self.get_queryset()
+
+        post_code = request.data["code"]
+        codes = []
+        for pid in post_code:
+            code = queryset.get(id=pid)
+            if not code:  # チェック
+                return Response({"detail": "リソースが見つかりません。"}, status.HTTP_400_BAD_REQUEST)
+            codes += [code]
+
+        # コード実行
+        result_data = execute_code(codes)
+
         # resultモデルへ結果を格納
         result = Result.objects.create(json_path="dummy", step=codes[0].step)
         result.codes.set(codes)
