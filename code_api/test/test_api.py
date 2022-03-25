@@ -5,7 +5,7 @@ from rest_framework.test import APIClient
 from world_api.models import World
 from stage_api.models import Stage
 from step_api.models import Step
-from code_api.models import ProgrammingLanguage
+from code_api.models import Code, ProgrammingLanguage
 from users.models import User
 
 
@@ -315,3 +315,41 @@ class CodeAPITests(TestCase):
         self.assertEquals(data3_edit.status_code, 403)  # 所有者じゃないので編集できない
         self.assertEquals(data3_delete.status_code, 403)  # 所有者じゃないので削除できない
         self.assertEquals(data3_edit_Annonimous.status_code, 401)  # ログインユーザーでなく不正な操作である
+
+    def test_run_code(self):
+        """code/:id/runを実行し，実行結果を確認する．"""
+        # テストデータが足りないのでデータを追加
+        Code.objects.create(
+            code_content="print('for run code1')",
+            language=self.lang_python,
+            step=self.step2,
+            user=self.user1,
+        )
+        Code.objects.create(
+            code_content="Alert('for run code2')",
+            language=self.lang_javascript,
+            step=self.step2,
+            user=self.user1,
+        )
+
+        # code/:id/runを実行
+        response1 = self.client.get(
+            f"/codes/{self.test_id2}/run/", {"p1": self.test_id3}
+        )
+        # レスポンスのステータスコードをチェック
+        self.assertEquals(response1.status_code, 200)
+        # jsonをデコード
+        body1 = json.loads(response1.content.decode("utf-8"))
+        # ID取得
+        result_id = body1["jsonId"]
+        # resultAPIからjsonを取得
+        response2 = self.client.get(f"/results/{result_id}/")
+        # レスポンスのステータスコードをチェック
+        self.assertEquals(response2.status_code, 200)
+        # jsonをデコード
+        body2 = json.loads(response2.content.decode("utf-8"))
+        # 指定したコードが入っているか確認
+        self.assertEquals(self.test_id2 in body2["codes"], True)
+        self.assertEquals(self.test_id3 in body2["codes"], True)
+        # step2のコードを使用したのでstep1のコードは入らない
+        self.assertEquals(self.test_id1 in body2["codes"], False)
