@@ -1,3 +1,4 @@
+import traceback
 class Player:
     UP,RIGHT,DOWN,LEFT,STAY,ERROR,FALL =0,1,2,3,4,5,6
     SAFE,FALL1,FALL2,FALL3,REVIVED = 0,1,2,3,4
@@ -14,7 +15,8 @@ class Player:
                 return self.UP
             try:
                 return user_code(state["field"],state["my_pos"],state["others_pos"])
-            except Exception:
+            except Exception as e:
+                print(traceback.format_exc())
                 return self.ERROR
         return self.FALL
 

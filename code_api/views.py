@@ -128,18 +128,24 @@ class CodeViewSet(viewsets.ModelViewSet):
         for pid in post_code:
             code = queryset.get(id=pid)
             if not code:  # チェック
-                return Response({"detail": "リソースが見つかりません。"}, status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {"detail": "リソースが見つかりません。"}, status.HTTP_400_BAD_REQUEST
+                )
             codes += [code]
 
         # 4つじゃなかったらランダムに足す
-        if(len(codes) <= 4):
+        if len(codes) <= 4:
             try:
                 codes += [
                     queryset.get(id=uuid[0])
-                    for uuid in random.sample(list(queryset.values_list("id")), 4-len(codes))
+                    for uuid in random.sample(
+                        list(queryset.values_list("id")), 4 - len(codes)
+                    )
                 ]
             except ValueError:
-                return Response({"detail": "コードのリソース数が足りません。"}, status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {"detail": "コードのリソース数が足りません。"}, status.HTTP_400_BAD_REQUEST
+                )
         # コード実行
         result_data = execute_code(codes)
 
