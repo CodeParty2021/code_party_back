@@ -31,10 +31,11 @@ def execute_code(codes):
     # コードを関数オブジェクト化
     python_objects = []
     for code_str in codes_str:
-        print(code_str)
         exec(code_str, globals())
-        python_objects += [select]
-
+        try:
+            python_objects += [select]
+        except NameError:
+            raise NameError()
     # ユーザー取得
     players = []
 
@@ -61,7 +62,6 @@ class CodeViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["get"], permission_classes=[])
     def test(self, request, pk=None):
         # コードの取得
-        print("getした")
         queryset = self.get_queryset()
         codeids = [pk]  # リソースのIDをシミュレーション対象コードに追加する
         step = None
@@ -90,8 +90,12 @@ class CodeViewSet(viewsets.ModelViewSet):
             return Response({"detail": "コードのリソース数が足りません。"}, status.HTTP_400_BAD_REQUEST)
 
         codes = [code, *other_codes]  # シミュレーションを実行するプログラム
-        result_data = execute_code(codes)
-
+        try:
+            result_data = execute_code(codes)
+        except NameError:
+            return Response(
+                {"detail": "select関数が見つかりません。"}, status.HTTP_400_BAD_REQUEST
+            )
         # resultモデルへ結果を格納
         result = Result.objects.create(json_path="dummy", step=code.step)
         result.codes.set(codes)
@@ -147,7 +151,13 @@ class CodeViewSet(viewsets.ModelViewSet):
                     {"detail": "コードのリソース数が足りません。"}, status.HTTP_400_BAD_REQUEST
                 )
         # コード実行
-        result_data = execute_code(codes)
+        result_data = None
+        try:
+            result_data = execute_code(codes)
+        except NameError:
+            return Response(
+                {"detail": "select関数が見つかりません。"}, status.HTTP_400_BAD_REQUEST
+            )
 
         # resultモデルへ結果を格納
         result = Result.objects.create(json_path="dummy", step=codes[0].step)
