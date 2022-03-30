@@ -31,8 +31,8 @@ class FirebaseAuthentication(BaseAuthentication):
             # それぞれ取り出し。 本来はここもSerializerでやるべき？
             uid = decoded_token["uid"]
             display_name = decoded_token.get("name", "名無しオペレータ")
-            email = decoded_token.get("email", "_@_._")
-            picture = decoded_token.get("picture", "")
+            email = decoded_token.get("email", None)
+            picture = decoded_token.get("picture", None)
 
             try:  # ただのログイン
                 user = User.objects.get(pk=uid)
