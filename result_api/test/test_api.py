@@ -141,8 +141,7 @@ class ResultAPITests(TestCase):
     def test_get_filtered_results_with_step(self):
         """step.idでフィルターして取得"""
         # GET
-        response = self.client.get(
-            "/results/", {"step": self.step1.id}, format="json")
+        response = self.client.get("/results/", {"step": self.step1.id}, format="json")
         # レスポンスのステータスコードをチェック
         self.assertEquals(response.status_code, 200)
         # jsonをデコード
