@@ -188,8 +188,7 @@ class CodeAPITests(TestCase):
     def test_get_filtered_codes_with_step(self):
         """step.idでフィルターして取得"""
         # GET
-        response = self.client.get(
-            "/codes/", {"step": self.step2.id}, format="json")
+        response = self.client.get("/codes/", {"step": self.step2.id}, format="json")
         # レスポンスのステータスコードをチェック
         self.assertEquals(response.status_code, 200)
         # jsonをデコード
@@ -206,8 +205,7 @@ class CodeAPITests(TestCase):
     def test_get_filtered_codes_with_user(self):
         """user.idでフィルターして取得"""
         # GET
-        response = self.client.get(
-            "/codes/", {"user": self.user1.id}, format="json")
+        response = self.client.get("/codes/", {"user": self.user1.id}, format="json")
         # レスポンスのステータスコードをチェック
         self.assertEquals(response.status_code, 200)
         # jsonをデコード
@@ -277,8 +275,7 @@ class CodeAPITests(TestCase):
             body,
             [
                 # 更新したデータが先頭に来る
-                {**self.res_data1,
-                    "codeContent": "def select(a,b,c):\n return 3"},
+                {**self.res_data1, "codeContent": "def select(a,b,c):\n return 3"},
                 self.res_data3,
                 self.res_data2,
             ],
@@ -303,8 +300,7 @@ class CodeAPITests(TestCase):
             format="json",
         )
         # データ3の削除
-        data3_delete = self.client.delete(
-            f"/codes/{self.test_id3}/", format="json")
+        data3_delete = self.client.delete(f"/codes/{self.test_id3}/", format="json")
 
         # ログアウト
         self.client.logout()
@@ -321,8 +317,7 @@ class CodeAPITests(TestCase):
         self.assertEquals(data3_view.status_code, 200)  # 所有者ではないが閲覧だけなのでOK
         self.assertEquals(data3_edit.status_code, 403)  # 所有者じゃないので編集できない
         self.assertEquals(data3_delete.status_code, 403)  # 所有者じゃないので削除できない
-        self.assertEquals(data3_edit_Annonimous.status_code,
-                          401)  # ログインユーザーでなく不正な操作である
+        self.assertEquals(data3_edit_Annonimous.status_code, 401)  # ログインユーザーでなく不正な操作である
 
     def test_run_code(self):
         """code/:id/runを実行し，実行結果を確認する．"""

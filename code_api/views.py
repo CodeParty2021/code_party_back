@@ -85,8 +85,7 @@ class CodeViewSet(viewsets.ModelViewSet):
                 ]
             )
             allCodes = allCodes - set(codeids)
-            codeids.extend(random.sample(
-                list(allCodes), MAX_PLAYER - len(codeids)))
+            codeids.extend(random.sample(list(allCodes), MAX_PLAYER - len(codeids)))
         except ValueError:
             return Response({"detail": "コードのリソース数が足りません。"}, status.HTTP_400_BAD_REQUEST)
 
@@ -139,7 +138,7 @@ class CodeViewSet(viewsets.ModelViewSet):
         post_code = dict(request.data)["code"]
         codes = []
         step = None
-        if(len(post_code) == 0):
+        if len(post_code) == 0:
             return Response({"detail": "codeが指定されていません。"}, status.HTTP_400_BAD_REQUEST)
 
         try:
@@ -160,8 +159,12 @@ class CodeViewSet(viewsets.ModelViewSet):
                 codes += [
                     queryset.get(id=uuid[0])
                     for uuid in random.sample(
-                        list(queryset.filter(step=step).values_list(
-                            "id").values_list("id")), 4 - len(codes)
+                        list(
+                            queryset.filter(step=step)
+                            .values_list("id")
+                            .values_list("id")
+                        ),
+                        4 - len(codes),
                     )
                 ]
             except ValueError:
