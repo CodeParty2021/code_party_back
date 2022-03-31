@@ -8,7 +8,7 @@ import json
 
 class Option:
     def __init__(self, width: int = 5, height: int = 5, num_players: int = 4, initial_pos=[(0, 0), (0, 4), (4, 4), (4, 0)], max_turn=30,
-                 initial_field=None, json_path=None, user_code=None
+                 initial_field=None, json_path=None, user_code=None, players=None,
                  ):
         self.width = width
         self.height = height
@@ -17,6 +17,7 @@ class Option:
         self.max_turn = max_turn
         self.initial_field = initial_field  # NoneのときFieldのコンストラクタで初期化
         self.json_path = json_path
+        self.players = players
         if(len(initial_pos) != num_players):
             raise Exception("initial_posとnum_playersの数が合ってません")
 
@@ -25,7 +26,9 @@ class Option:
 
         if(user_code == None):
             user_code = [ret_ERROR for i in range(num_players)]
-
+        if(players == None):
+            players = [{"name": "デモ太郎", "icon": "https://sample.com"}
+                       for i in range(num_players)]
         self.user_code = user_code
 
 
@@ -54,7 +57,7 @@ def start(option: Option = Option()):
 
     # json用の辞書を生成
     json_ = {
-        "players": [{"name": "デモ太郎", "icon": "https://sample.com"} for i in range(option.num_players)],
+        "players": option.players,
         "stage": {"width": option.width, "height": option.height, "field": reduceDim(field.mask_field()), "players": [{"x": player.pos_x, "y": player.pos_y, "score": player.score}for player in players]},
         "turn": [],
         "result": {},

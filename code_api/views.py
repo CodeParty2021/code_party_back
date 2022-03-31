@@ -5,6 +5,7 @@ import json
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from users.models import User
 
 from .models import ProgrammingLanguage, Code
 from .serializer import (
@@ -34,8 +35,15 @@ def execute_code(codes):
         exec(code_str, globals())
         python_objects += [select]
 
+    # ユーザー取得
+    players = []
+
+    for code_item in codes:
+        auther = code_item.user
+        players += [{"icon": auther.picture, "name": auther.display_name}]
+
     # シミュレータ実行
-    option = sqare_paint.Option(user_code=python_objects)
+    option = sqare_paint.Option(user_code=python_objects, players=players)
     result_data = sqare_paint.start(option)
 
     return result_data
@@ -51,8 +59,9 @@ class CodeViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
     @action(detail=True, methods=["get"], permission_classes=[])
-    def run(self, request, pk=None):
-        MAX_PLAYER = 4
+    def test(self, request, pk=None):
+        # コードの取得
+        print("getした")
         queryset = self.get_queryset()
         codeids = [pk]  # リソースのIDをシミュレーション対象コードに追加する
         step = None
@@ -109,10 +118,9 @@ class CodeViewSet(viewsets.ModelViewSet):
         else:
             return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
-#curl -X POST -H "Content-Type: application/json" -d '{"code":["afe75f3e-8cda-4972-8845-2fc8cb56ec7b","afe75f3e-8cda-4972-8845-2fc8cb56ec7b","afe75f3e-8cda-4972-8845-2fc8cb56ec7b","afe75f3e-8cda-4972-8845-2fc8cb56ec7b"]}' https://localhost:8000/codes/run
-    @action(detail=True, methods=["post"], permission_classes=[])
+    @action(detail=False, methods=["post"], permission_classes=[])
     def run(self, request):
-        # コードの取得
+        # コードの取得\
         queryset = self.get_queryset()
 
         post_code = request.data["code"]
@@ -123,6 +131,15 @@ class CodeViewSet(viewsets.ModelViewSet):
                 return Response({"detail": "リソースが見つかりません。"}, status.HTTP_400_BAD_REQUEST)
             codes += [code]
 
+        # 4つじゃなかったらランダムに足す
+        if(len(codes) <= 4):
+            try:
+                codes += [
+                    queryset.get(id=uuid[0])
+                    for uuid in random.sample(list(queryset.values_list("id")), 4-len(codes))
+                ]
+            except ValueError:
+                return Response({"detail": "コードのリソース数が足りません。"}, status.HTTP_400_BAD_REQUEST)
         # コード実行
         result_data = execute_code(codes)
 
