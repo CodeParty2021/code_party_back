@@ -1,4 +1,7 @@
-import os, random, json
+import os
+import random
+import json
+
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -13,6 +16,7 @@ from .permission import IsOwnerOrReadOnlyPermission
 from .permission import IsStaffOrReadOnlyPermission
 from .filter import CodeFilter
 from result_api.models import Result
+from game_libs import sqare_paint
 
 
 class ProgrammingLanguageViewSet(viewsets.ModelViewSet):
@@ -55,23 +59,23 @@ class CodeViewSet(viewsets.ModelViewSet):
                 ]
             )
             allCodes = allCodes - set(codeids)
-            codeids.extend(random.sample(list(allCodes), MAX_PLAYER - len(codeids)))
+            codeids.extend(random.sample(
+                list(allCodes), MAX_PLAYER - len(codeids)))
         except ValueError:
             return Response({"detail": "コードのリソース数が足りません。"}, status.HTTP_400_BAD_REQUEST)
 
-        # コードを取得
-        codes = []
-        try:
-            for codeid in codeids:
-                codes.append(
-                    queryset.get(id=codeid, step=step)
-                )  # 指定されたコードが同じステップのものかを取得
-        except:
-            return Response({"detail": "リソースが見つかりません。"}, status.HTTP_400_BAD_REQUEST)
+        codes = [code, *other_codes]  # シミュレーションを実行するプログラム
+        codes_str = [c.code_content for c in codes]
+        # コードを関数オブジェクト化
+        python_objects = []
+        for code_str in codes_str:
+            print(code_str)
+            exec(code_str, globals())
+            python_objects += [select]
 
         # シミュレータ実行
-        result_data = {"result": "done"}
-
+        option = sqare_paint.Option(user_code=python_objects)
+        result_data = sqare_paint.start(option)
         # resultモデルへ結果を格納
         result = Result.objects.create(json_path="dummy", step=codes[0].step)
         result.codes.set(codes)
@@ -86,13 +90,14 @@ class CodeViewSet(viewsets.ModelViewSet):
             wf.write(json.dumps(result_data))
 
         # 戻り値の準備
-        unity_url = "http://Unity.com/"
+        unity_url = "http://localhost:3000/unity/sp/"
         json_id = result.id
 
         serializer = CodeRunResultSerializer(
             data={
                 "unityURL": unity_url,
                 "json_id": json_id,
+                "json": result_data
             }
         )
 
