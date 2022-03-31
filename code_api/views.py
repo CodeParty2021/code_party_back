@@ -62,22 +62,44 @@ class CodeViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["get"], permission_classes=[])
     def test(self, request, pk=None):
-        # コードの取得
+        MAX_PLAYER = 4
         queryset = self.get_queryset()
-        code = queryset.get(id=pk)
-        if not code:  # チェック
-            return Response({"detail": "リソースが見つかりません。"}, status.HTTP_400_BAD_REQUEST)
-
-        # コードをランダムに３件取得
+        codeids = [pk]  # リソースのIDをシミュレーション対象コードに追加する
+        step = None
         try:
-            other_codes = [
-                queryset.get(id=uuid[0])
-                for uuid in random.sample(list(queryset.values_list("id")), 3)
-            ]
+            step = queryset.get(id=pk).step
+        except:
+            return Response({"detail": "不正なIDです。"}, status.HTTP_400_BAD_REQUEST)
+
+        # GETパラメータに指定されたコードを取得
+        for i in range(1, MAX_PLAYER):
+            if f"p{i}" in request.GET:
+                codeids.append(request.GET.get(f"p{i}"))
+
+        # コードを4件になるまでランダムに補充
+        try:
+            allCodes = set(
+                [
+                    uuid[0].urn[9:]
+                    for uuid in queryset.filter(step=step).values_list("id")
+                ]
+            )
+            allCodes = allCodes - set(codeids)
+            codeids.extend(random.sample(
+                list(allCodes), MAX_PLAYER - len(codeids)))
         except ValueError:
             return Response({"detail": "コードのリソース数が足りません。"}, status.HTTP_400_BAD_REQUEST)
 
-        codes = [code, *other_codes]  # シミュレーションを実行するプログラム
+        # コードを取得
+        codes = []
+        try:
+            for codeid in codeids:
+                codes.append(
+                    queryset.get(id=codeid, step=step)
+                )  # 指定されたコードが同じステップのものかを取得
+        except:
+            return Response({"detail": "リソースが見つかりません。"}, status.HTTP_400_BAD_REQUEST)
+
         try:
             result_data = execute_code(codes)
         except NameError:
@@ -85,7 +107,7 @@ class CodeViewSet(viewsets.ModelViewSet):
                 {"detail": "select関数が見つかりません。"}, status.HTTP_400_BAD_REQUEST
             )
         # resultモデルへ結果を格納
-        result = Result.objects.create(json_path="dummy", step=code.step)
+        result = Result.objects.create(json_path="dummy", step=codes[0].step)
         result.codes.set(codes)
         json_directory = "/tmp/result"
         json_filename = f"{json_directory}/{result.id}.json"
@@ -114,9 +136,16 @@ class CodeViewSet(viewsets.ModelViewSet):
     def run(self, request):
         # コードの取得\
         queryset = self.get_queryset()
-
-        post_code = request.data["code"]
+        post_code = dict(request.data)["code"]
         codes = []
+        step = None
+        if(len(post_code) == 0):
+            return Response({"detail": "codeが指定されていません。"}, status.HTTP_400_BAD_REQUEST)
+
+        try:
+            step = queryset.get(id=post_code[0]).step
+        except:
+            return Response({"detail": "不正なIDです。"}, status.HTTP_400_BAD_REQUEST)
         for pid in post_code:
             code = queryset.get(id=pid)
             if not code:  # チェック
@@ -131,13 +160,15 @@ class CodeViewSet(viewsets.ModelViewSet):
                 codes += [
                     queryset.get(id=uuid[0])
                     for uuid in random.sample(
-                        list(queryset.values_list("id")), 4 - len(codes)
+                        list(queryset.filter(step=step).values_list(
+                            "id").values_list("id")), 4 - len(codes)
                     )
                 ]
             except ValueError:
                 return Response(
                     {"detail": "コードのリソース数が足りません。"}, status.HTTP_400_BAD_REQUEST
                 )
+
         # コード実行
         result_data = None
         try:
