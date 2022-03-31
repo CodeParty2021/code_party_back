@@ -3,6 +3,7 @@ import random
 import json
 
 from rest_framework import status, viewsets
+from rest_framework.exceptions import NotFound
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from users.models import User
@@ -63,29 +64,16 @@ class CodeViewSet(viewsets.ModelViewSet):
     def test(self, request, pk=None):
         # コードの取得
         queryset = self.get_queryset()
-        codeids = [pk]  # リソースのIDをシミュレーション対象コードに追加する
-        step = None
-        try:
-            step = queryset.get(id=pk).step
-        except:
-            return Response({"detail": "不正なIDです。"}, status.HTTP_400_BAD_REQUEST)
+        code = queryset.get(id=pk)
+        if not code:  # チェック
+            return Response({"detail": "リソースが見つかりません。"}, status.HTTP_400_BAD_REQUEST)
 
-        # GETパラメータに指定されたコードを取得
-        for i in range(1, MAX_PLAYER):
-            if f"p{i}" in request.GET:
-                codeids.append(request.GET.get(f"p{i}"))
-
-        # コードを4件になるまでランダムに補充
+        # コードをランダムに３件取得
         try:
-            allCodes = set(
-                [
-                    uuid[0].urn[9:]
-                    for uuid in queryset.filter(step=step).values_list("id")
-                ]
-            )
-            allCodes = allCodes - set(codeids)
-            codeids.extend(random.sample(
-                list(allCodes), MAX_PLAYER - len(codeids)))
+            other_codes = [
+                queryset.get(id=uuid[0])
+                for uuid in random.sample(list(queryset.values_list("id")), 3)
+            ]
         except ValueError:
             return Response({"detail": "コードのリソース数が足りません。"}, status.HTTP_400_BAD_REQUEST)
 
@@ -160,7 +148,7 @@ class CodeViewSet(viewsets.ModelViewSet):
             )
 
         # resultモデルへ結果を格納
-        result = Result.objects.create(json_path="dummy", step=codes[0].step)
+        result = Result.objects.create(json_path="dummy", step=code.step)
         result.codes.set(codes)
         json_directory = "/tmp/result"
         json_filename = f"{json_directory}/{result.id}.json"
