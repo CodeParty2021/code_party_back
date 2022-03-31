@@ -128,7 +128,7 @@ class CodeAPITests(TestCase):
         }
         self.res_data3 = {
             "id": self.test_id3,
-            "codeContent": "def select(a,b,c):\n return 3",
+            "codeContent": "def select(a,b,c):\n return 2",
             "language": self.lang_python.id,
             "step": self.step2.id,
             "user": self.user2.id,
@@ -180,6 +180,7 @@ class CodeAPITests(TestCase):
             body,
             [
                 self.res_data1,
+                self.res_data2,
                 self.res_data3,
             ],
         )
@@ -270,14 +271,7 @@ class CodeAPITests(TestCase):
         self.assertEquals(response.status_code, 200)
         # jsonをデコード
         body = json.loads(response.content.decode("utf-8"))
-        print(body)
-        print([
-            # 更新したデータが先頭に来る
-            {**self.res_data1,
-             "codeContent": "def select(a,b,c):\n return 3"},
-            self.res_data3,
-            self.res_data2,
-        ])
+
         # データチェック
         self.assertEquals(
             body,
