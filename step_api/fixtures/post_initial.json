@@ -1,0 +1,12 @@
+[
+    {
+      "model": "step_api.step",
+      "pk": 1,
+      "fields": {
+        "objective":"一番多く塗った人が勝ち",
+        "description":"デモ用の対人モード",
+        "index": 1,
+        "stage": 1
+      }
+    }
+  ]
