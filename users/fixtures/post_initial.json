@@ -1,0 +1,12 @@
+[
+    {
+      "model": "users.user",
+      "pk": 1,
+      "fields": {
+        "id": "sample_token",
+        "display_name": "ROBOT",
+        "picture" : "sampe.java",
+        "is_staff" : false
+      }
+    }
+]
