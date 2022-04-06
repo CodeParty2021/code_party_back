@@ -10,6 +10,7 @@ from users.models import User
 
 from .models import ProgrammingLanguage, Code
 from .serializer import (
+    CodeTestSerializer,
     ProgrammingLanguageSerializer,
     CodeSerializer,
     CodeRunResultSerializer,
@@ -85,7 +86,8 @@ class CodeViewSet(viewsets.ModelViewSet):
                 ]
             )
             allCodes = allCodes - set(codeids)
-            codeids.extend(random.sample(list(allCodes), MAX_PLAYER - len(codeids)))
+            codeids.extend(random.sample(
+                list(allCodes), MAX_PLAYER - len(codeids)))
         except ValueError:
             return Response({"detail": "コードのリソース数が足りません。"}, status.HTTP_400_BAD_REQUEST)
 
@@ -122,8 +124,8 @@ class CodeViewSet(viewsets.ModelViewSet):
         unity_url = "http://localhost:3000/unity/sp/"
         json_id = result.id
 
-        serializer = CodeRunResultSerializer(
-            data={"unityURL": unity_url, "json_id": json_id, "json": result_data}
+        serializer = CodeTestSerializer(
+            data={"unityURL": unity_url, "json": result_data}
         )
 
         if serializer.is_valid():
@@ -161,7 +163,6 @@ class CodeViewSet(viewsets.ModelViewSet):
                     for uuid in random.sample(
                         list(
                             queryset.filter(step=step)
-                            .values_list("id")
                             .values_list("id")
                         ),
                         4 - len(codes),
