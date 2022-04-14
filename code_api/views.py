@@ -33,9 +33,10 @@ def execute_code(codes):
     # コードを関数オブジェクト化
     python_objects = []
     for code_str in codes_str:
-        exec(code_str, globals())
+        user_dict = {}
+        exec(code_str, user_dict)
         try:
-            python_objects += [select]
+            python_objects += [user_dict["select"]]
         except NameError:
             raise NameError()
     # ユーザー取得
@@ -86,8 +87,7 @@ class CodeViewSet(viewsets.ModelViewSet):
                 ]
             )
             allCodes = allCodes - set(codeids)
-            codeids.extend(random.sample(
-                list(allCodes), MAX_PLAYER - len(codeids)))
+            codeids.extend(random.sample(list(allCodes), MAX_PLAYER - len(codeids)))
         except ValueError:
             return Response({"detail": "コードのリソース数が足りません。"}, status.HTTP_400_BAD_REQUEST)
 
@@ -161,10 +161,7 @@ class CodeViewSet(viewsets.ModelViewSet):
                 codes += [
                     queryset.get(id=uuid[0])
                     for uuid in random.sample(
-                        list(
-                            queryset.filter(step=step)
-                            .values_list("id")
-                        ),
+                        list(queryset.filter(step=step).values_list("id")),
                         4 - len(codes),
                     )
                 ]
