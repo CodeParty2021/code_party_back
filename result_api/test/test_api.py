@@ -49,25 +49,25 @@ class ResultAPITests(TestCase):
             picture="http://localhost:8000/users/auth",
         )
         self.code1 = Code.objects.create(
-            code_content="print('player1')",
+            code_content="def select(a,b,c):\n return 1",
             language=self.lang_python,
             step=self.step1,
             user=self.user,
         )
         self.code2 = Code.objects.create(
-            code_content="print('player2')",
+            code_content="def select(a,b,c):\n return 1",
             language=self.lang_python,
             step=self.step1,
             user=self.user,
         )
         self.code3 = Code.objects.create(
-            code_content="print('player3')",
+            code_content="def select(a,b,c):\n return 1",
             language=self.lang_python,
             step=self.step2,
             user=self.user,
         )
         self.code4 = Code.objects.create(
-            code_content="print('player4')",
+            code_content="def select(a,b,c):\n return 1",
             language=self.lang_python,
             step=self.step2,
             user=self.user,
@@ -195,20 +195,22 @@ class ResultAPITests(TestCase):
         """code/:id/runを実行し，resultのjsonを取得する"""
         # テストデータが足りないのでデータを追加
         Code.objects.create(
-            code_content="print('for run code1')",
+            code_content="def select(a,b,c):\n return 1",
             language=self.lang_python,
             step=self.step1,
             user=self.user,
         )
         Code.objects.create(
-            code_content="print('for run code2')",
+            code_content="def select(a,b,c):\n return 1",
             language=self.lang_python,
             step=self.step1,
             user=self.user,
         )
 
         # code/:id/runを実行
-        response1 = self.client.get(f"/codes/{self.code1.id.urn[9:]}/run/")
+        response1 = self.client.post(
+            f"/codes/run/", {"code": [self.code1.id.urn[9:], self.code2.id.urn[9:]]}
+        )
         # レスポンスのステータスコードをチェック
         self.assertEquals(response1.status_code, 200)
         # jsonをデコード

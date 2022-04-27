@@ -1,4 +1,5 @@
 import json
+from tkinter.filedialog import test
 from django.test import TestCase
 from rest_framework.test import APIClient
 
@@ -40,7 +41,6 @@ class CodeAPITests(TestCase):
             stage=stage,
         )
         self.lang_python = ProgrammingLanguage.objects.create(name="Python")
-        self.lang_javascript = ProgrammingLanguage.objects.create(name="JavaScript")
 
         # 一人目のユーザ
         self.user1 = User.objects.create(
@@ -66,7 +66,7 @@ class CodeAPITests(TestCase):
         data1 = self.client.post(
             "/codes/",
             {
-                "code_content": "print('hello world!')",
+                "code_content": "def select(a,b,c):\n return 0",
                 "language": self.lang_python.id,
                 "step": self.step1.id,
             },
@@ -75,8 +75,8 @@ class CodeAPITests(TestCase):
         data2 = self.client.post(
             "/codes/",
             {
-                "code_content": "Alert('hello world!')",
-                "language": self.lang_javascript.id,
+                "code_content": "def select(a,b,c):\n return 1",
+                "language": self.lang_python.id,
                 "step": self.step2.id,
             },
             format="json",
@@ -88,7 +88,7 @@ class CodeAPITests(TestCase):
         data3 = self.client.post(
             "/codes/",
             {
-                "code_content": "pass",
+                "code_content": "def select(a,b,c):\n return 2",
                 "language": self.lang_python.id,
                 "step": self.step2.id,
             },
@@ -110,7 +110,7 @@ class CodeAPITests(TestCase):
         # 想定データを作成
         self.res_data1 = {
             "id": self.test_id1,
-            "codeContent": "print('hello world!')",
+            "codeContent": "def select(a,b,c):\n return 0",
             "language": self.lang_python.id,
             "step": self.step1.id,
             "user": self.user1.id,
@@ -119,8 +119,8 @@ class CodeAPITests(TestCase):
         }
         self.res_data2 = {
             "id": self.test_id2,
-            "codeContent": "Alert('hello world!')",
-            "language": self.lang_javascript.id,
+            "codeContent": "def select(a,b,c):\n return 1",
+            "language": self.lang_python.id,
             "step": self.step2.id,
             "user": self.user1.id,
             "updatedAt": data2["updatedAt"],
@@ -128,7 +128,7 @@ class CodeAPITests(TestCase):
         }
         self.res_data3 = {
             "id": self.test_id3,
-            "codeContent": "pass",
+            "codeContent": "def select(a,b,c):\n return 2",
             "language": self.lang_python.id,
             "step": self.step2.id,
             "user": self.user2.id,
@@ -180,6 +180,7 @@ class CodeAPITests(TestCase):
             body,
             [
                 self.res_data1,
+                self.res_data2,
                 self.res_data3,
             ],
         )
@@ -245,7 +246,7 @@ class CodeAPITests(TestCase):
         # 一件だけ更新
         updated = self.client.patch(
             f"/codes/{self.test_id1}/",
-            {"codeContent": "print('update!')"},
+            {"codeContent": "def select(a,b,c):\n return 3"},
             format="json",
         )
         # レスポンスのステータスコードをチェック
@@ -256,7 +257,7 @@ class CodeAPITests(TestCase):
         updated_data = json.loads(updated.content.decode("utf-8"))
         self.res_data1 = {
             **self.res_data1,
-            "codeContent": "print('update!')",
+            "codeContent": "def select(a,b,c):\n return 3",
             "updatedAt": updated_data["updatedAt"],
         }
 
@@ -268,11 +269,13 @@ class CodeAPITests(TestCase):
         self.assertEquals(response.status_code, 200)
         # jsonをデコード
         body = json.loads(response.content.decode("utf-8"))
+
         # データチェック
         self.assertEquals(
             body,
             [
-                {**self.res_data1, "codeContent": "print('update!')"},  # 更新したデータが先頭に来る
+                # 更新したデータが先頭に来る
+                {**self.res_data1, "codeContent": "def select(a,b,c):\n return 3"},
                 self.res_data3,
                 self.res_data2,
             ],
@@ -285,7 +288,7 @@ class CodeAPITests(TestCase):
         # データ1の編集
         data1_edit = self.client.patch(
             f"/codes/{self.test_id1}/",
-            {"codeContent": "print('update!')"},
+            {"codeContent": "def select(a,b,c):\n return 3"},
             format="json",
         )
         # データ3の閲覧
@@ -293,7 +296,7 @@ class CodeAPITests(TestCase):
         # データ3の編集
         data3_edit = self.client.patch(
             f"/codes/{self.test_id3}/",
-            {"codeContent": "print('update!')"},
+            {"codeContent": "def select(a,b,c):\n return 0"},
             format="json",
         )
         # データ3の削除
@@ -305,7 +308,7 @@ class CodeAPITests(TestCase):
         # ユーザなしでのデータ3の編集
         data3_edit_Annonimous = self.client.post(
             f"/codes/{self.test_id3}/",
-            {"codeContent": "print('update!')"},
+            {"codeContent": "def select(a,b,c):\n return 2"},
             format="json",
         )
 
@@ -320,21 +323,20 @@ class CodeAPITests(TestCase):
         """code/:id/runを実行し，実行結果を確認する．"""
         # テストデータが足りないのでデータを追加
         Code.objects.create(
-            code_content="print('for run code1')",
+            code_content="def select(a,b,c):\n return 3",
             language=self.lang_python,
             step=self.step2,
             user=self.user1,
         )
         Code.objects.create(
-            code_content="Alert('for run code2')",
-            language=self.lang_javascript,
+            code_content="def select(a,b,c):\n return 3",
+            language=self.lang_python,
             step=self.step2,
             user=self.user1,
         )
-
         # code/:id/runを実行
-        response1 = self.client.get(
-            f"/codes/{self.test_id2}/run/", {"p1": self.test_id3}
+        response1 = self.client.post(
+            f"/codes/run/", {"code": [self.test_id2, self.test_id3]}
         )
         # レスポンスのステータスコードをチェック
         self.assertEquals(response1.status_code, 200)

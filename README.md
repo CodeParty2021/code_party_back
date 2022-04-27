@@ -21,14 +21,18 @@
     ```
    vi .env
    ```
-    
 
-
-4. dbのマイグレーション
+5. dbのマイグレーション
     ```
     python manage.py migrate
     ```
-5. 起動
+
+6. dbに初期データの追加
+   ```
+   python manage.py loaddata post_initial.json
+   ```
+   
+7. 起動
     ```
     python manage.py runserver
     ```
