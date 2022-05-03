@@ -1,7 +1,8 @@
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
+from rest_framework import generics, permissions
+from django.http import HttpResponse, Http404
 from .auth import FirebaseAuthentication
 from .serializers import UserSerializer, UserReadonlySerializer
 from .models import User
@@ -21,3 +22,17 @@ class FirebaseAuthView(APIView):
 class UserRetrieveView(RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserReadonlySerializer
+
+
+class DisplayNameUpdateView(generics.UpdateAPIView):
+    #permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = UserSerializer
+    lookup_field = "id"
+    queryset = User.objects.all()
+
+    def get_object(self):
+        try:
+            instance = self.queryset.get(id=self.request.user)
+            return instance
+        except User.DoesNotExist:
+            raise Http404

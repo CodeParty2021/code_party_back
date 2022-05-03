@@ -32,3 +32,36 @@ class UserAPITests(TestCase):
                 "isStaff": False,
             },
         )
+
+    def test_Display_Name_Update(self):
+        self.user1 = User.objects.create(
+            id="fawe;ojifa;woef",
+            display_name="hello",
+            email="feaw@fawe.com",
+            picture="http://localhost:8000/users/auth",
+            is_staff=True,
+        )
+        # ユーザ強制ログイン
+        self.client.force_authenticate(user=self.user1)
+        """Display_nameの変更"""
+        # PUT
+        response = self.client.put(
+            "/users/displayname_update/Anonimous/",
+            {"displayName": "changed user"},
+            format="json",
+        )
+        # レスポンスのステータスコードをチェック
+        self.assertEquals(response.status_code, 200)
+        # jsonをデコード
+        body = json.loads(response.content.decode("utf-8"))
+        # データチェック
+        self.assertEquals(
+            body,
+            {
+                "id":"fawe;ojifa;woef",
+                "displayName":"hello",
+                "email":"feaw@fawe.com",
+                "picture":"http://localhost:8000/users/auth",
+                "is_staff": True,
+            },
+        )

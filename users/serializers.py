@@ -9,6 +9,11 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = "__all__"
 
+    def update(self, instance, validated_data):
+        instance = super().update(instance, validated_data)
+        instance.save()
+        return instance
+
 
 class UserReadonlySerializer(serializers.ModelSerializer):
     class Meta:
