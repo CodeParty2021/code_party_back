@@ -10,6 +10,7 @@ from users.models import User
 
 from .models import ProgrammingLanguage, Code
 from .serializer import (
+    CodeTestSerializer,
     ProgrammingLanguageSerializer,
     CodeSerializer,
     CodeRunResultSerializer,
@@ -32,9 +33,10 @@ def execute_code(codes):
     # コードを関数オブジェクト化
     python_objects = []
     for code_str in codes_str:
-        exec(code_str, globals())
+        user_dict = {}
+        exec(code_str, user_dict)
         try:
-            python_objects += [select]
+            python_objects += [user_dict["select"]]
         except NameError:
             raise NameError()
     # ユーザー取得
@@ -81,7 +83,9 @@ class CodeViewSet(viewsets.ModelViewSet):
             allCodes = set(
                 [
                     uuid[0].urn[9:]
-                    for uuid in queryset.filter(step=step).values_list("id")
+                    for uuid in queryset.filter(step=step)
+                    .exclude(id__in=codeids)
+                    .values_list("id")
                 ]
             )
             allCodes = allCodes - set(codeids)
@@ -105,25 +109,12 @@ class CodeViewSet(viewsets.ModelViewSet):
             return Response(
                 {"detail": "select関数が見つかりません。"}, status.HTTP_400_BAD_REQUEST
             )
-        # resultモデルへ結果を格納
-        result = Result.objects.create(json_path="dummy", step=codes[0].step)
-        result.codes.set(codes)
-        json_directory = "/tmp/result"
-        json_filename = f"{json_directory}/{result.id}.json"
-        result.json_path = json_filename
-        result.save()
-
-        # シミュレーション結果ファイルの保存
-        os.makedirs("/tmp/result/", exist_ok=True)
-        with open(json_filename, "x", encoding="UTF-8") as wf:
-            wf.write(json.dumps(result_data))
 
         # 戻り値の準備
         unity_url = "http://localhost:3000/unity/sp/"
-        json_id = result.id
 
-        serializer = CodeRunResultSerializer(
-            data={"unityURL": unity_url, "json_id": json_id, "json": result_data}
+        serializer = CodeTestSerializer(
+            data={"unityURL": unity_url, "json": result_data}
         )
 
         if serializer.is_valid():
@@ -161,7 +152,7 @@ class CodeViewSet(viewsets.ModelViewSet):
                     for uuid in random.sample(
                         list(
                             queryset.filter(step=step)
-                            .values_list("id")
+                            .exclude(id__in=[code.id for code in codes])
                             .values_list("id")
                         ),
                         4 - len(codes),
@@ -199,7 +190,7 @@ class CodeViewSet(viewsets.ModelViewSet):
         json_id = result.id
 
         serializer = CodeRunResultSerializer(
-            data={"unityURL": unity_url, "json_id": json_id, "json": result_data}
+            data={"unityURL": unity_url, "json_id": json_id}
         )
 
         if serializer.is_valid():

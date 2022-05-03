@@ -30,23 +30,10 @@ class FirebaseAuthentication(BaseAuthentication):
 
             # それぞれ取り出し。 本来はここもSerializerでやるべき？
             uid = decoded_token["uid"]
-            # name がない可能性がある。
-            if "name" in decoded_token:
-                display_name = decoded_token["name"]
-            else:
-                display_name = "名無しオペレータ"
 
-            # emailがない可能性がある
-            if "email" in decoded_token:
-                email = decoded_token["email"]
-            else:
-                email = ""
-            # pictureがない可能性がある
-            if "picture" in decoded_token:
-                picture = decoded_token["picture"]
-            else:
-                picture = ""
-
+            display_name = decoded_token.get("name", "名無しオペレータ")
+            email = decoded_token.get("email", None)
+            picture = decoded_token.get("picture", None)
             try:  # ただのログイン
                 user = User.objects.get(pk=uid)
                 return (user, {"created": False})

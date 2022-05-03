@@ -27,3 +27,8 @@ class CodeSerializer(serializers.ModelSerializer):
 class CodeRunResultSerializer(serializers.Serializer):
     unityURL = serializers.URLField()
     json_id = serializers.UUIDField()
+
+
+class CodeTestSerializer(serializers.Serializer):
+    unityURL = serializers.URLField()
+    json = serializers.JSONField()
