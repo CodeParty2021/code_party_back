@@ -4,9 +4,19 @@
       "pk": 1,
       "fields": {
         "index":0,
-        "objective" :"いっぱい色を塗った人が勝ち",
+        "objective" :"フリーコーディング用のステージ",
+        "movie_url" : "https://hogehogewoofoo.com",
+        "world":1
+      }
+    },
+   {
+      "model": "stage_api.stage",
+      "pk": 2,
+      "fields": {
+        "index": 0,
+        "objective" :"イベント用のステージ",
         "movie_url" : "https://hogehogewoofoo.com",
         "world":1
       }
     }
-  ]
+]

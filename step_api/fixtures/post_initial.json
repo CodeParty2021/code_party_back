@@ -4,9 +4,49 @@
       "pk": 1,
       "fields": {
         "objective":"一番多く塗った人が勝ち",
-        "description":"デモ用の対人モード",
+        "description":"フリーコーディング用の対人モード",
         "index": 1,
         "stage": 1
+      }
+    },
+    {
+      "model": "step_api.step",
+      "pk": 2,
+      "fields": {
+        "objective":"一番多く塗った人が勝ち",
+        "description":"イベント用の1用練習モード",
+        "index": 1,
+        "stage": 2
+      }
+    },
+    {
+      "model": "step_api.step",
+      "pk": 3,
+      "fields": {
+        "objective":"一番多く塗った人が勝ち",
+        "description":"イベント用のAI対戦1つ目のロボット",
+        "index": 2,
+        "stage": 2
+      }
+    },
+    {
+      "model": "step_api.step",
+      "pk": 4,
+      "fields": {
+        "objective":"一番多く塗った人が勝ち",
+        "description":"イベント用のAI対戦2つ目のロボット",
+        "index": 3,
+        "stage": 2
+      }
+    },
+    {
+      "model": "step_api.step",
+      "pk": 5,
+      "fields": {
+        "objective":"一番多く塗った人が勝ち",
+        "description":"イベント用のAI対戦2つ目のロボット",
+        "index": 4,
+        "stage": 2
       }
     }
   ]
