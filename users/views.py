@@ -1,10 +1,10 @@
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import RetrieveAPIView,UpdateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics, permissions
 from django.http import HttpResponse, Http404
 from .auth import FirebaseAuthentication
-from .serializers import UserSerializer, UserReadonlySerializer
+from .serializers import UserSerializer, UserReadonlySerializer, UserUpdateSerializer
 from .models import User
 
 
@@ -24,9 +24,9 @@ class UserRetrieveView(RetrieveAPIView):
     serializer_class = UserReadonlySerializer
 
 
-class DisplayNameUpdateView(generics.UpdateAPIView):
+class DisplayNameUpdateView(UpdateAPIView):
     #permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = UserSerializer
+    serializer_class = UserUpdateSerializer
     lookup_field = "id"
     queryset = User.objects.all()
 
