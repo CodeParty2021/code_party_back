@@ -37,7 +37,6 @@ class UserAPITests(TestCase):
         self.user1 = User.objects.create(
             id="2",
             display_name="hello",
-            email="feaw@fawe.com",
             picture="http://localhost:8000/users/auth",
             is_staff=True,
         )
@@ -46,7 +45,7 @@ class UserAPITests(TestCase):
         """Display_nameの変更"""
         # PATCH
         response = self.client.patch(
-            f"/users/displaynameupdate/2/",
+            f"/users/update/2/",
             {"displayName": "changed user"},
             format="json",
         )
@@ -59,10 +58,9 @@ class UserAPITests(TestCase):
         self.assertEquals(
             body,
             {
-                "id":"2",
-                "displayName":"hello",
-                "email":"feaw@fawe.com",
-                "picture":"http://localhost:8000/users/auth",
-                "is_staff": True,
+                "id": "2",
+                "displayName": "changed user",
+                "picture": "http://localhost:8000/users/auth",
+                "isStaff": True,
             },
         )

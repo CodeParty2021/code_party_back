@@ -1,4 +1,4 @@
-from rest_framework.generics import RetrieveAPIView,UpdateAPIView
+from rest_framework.generics import RetrieveAPIView, UpdateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics, permissions
@@ -25,14 +25,15 @@ class UserRetrieveView(RetrieveAPIView):
 
 
 class DisplayNameUpdateView(UpdateAPIView):
-    #permission_classes = (permissions.IsAuthenticated,)
+    # permission_classes = (permissions.IsAuthenticated,)
     serializer_class = UserUpdateSerializer
     lookup_field = "id"
     queryset = User.objects.all()
 
     def get_object(self):
         try:
-            instance = self.queryset.get(id=self.request.user)
+            print(self.request.user.id)
+            instance = self.queryset.get(id=self.request.user.id)
             return instance
         except User.DoesNotExist:
             raise Http404

@@ -10,11 +10,11 @@ class UserSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-
 class UserReadonlySerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("id", "display_name", "picture", "is_staff")
+
 
 class UserUpdateSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
