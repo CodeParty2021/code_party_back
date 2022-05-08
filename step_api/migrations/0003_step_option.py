@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('step_api', '0002_stepcode'),
+        ("step_api", "0002_stepcode"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='step',
-            name='option',
+            model_name="step",
+            name="option",
             field=models.JSONField(default={}),
         ),
     ]
