@@ -14,3 +14,14 @@ class UserReadonlySerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("id", "display_name", "picture", "is_staff")
+
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    def update(self, instance, validated_data):
+        instance = super().update(instance, validated_data)
+        instance.save()
+        return instance
+
+    class Meta:
+        model = User
+        fields = ("display_name", "picture", "is_staff")
