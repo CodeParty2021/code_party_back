@@ -10,7 +10,7 @@ class Step(models.Model):
     index = models.IntegerField()
     stage = models.ForeignKey(Stage, on_delete=models.CASCADE)
 
-    option = models.JSONField()
+    option = models.JSONField(default={})
 
 
 class StepCode(models.Model):
