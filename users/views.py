@@ -25,7 +25,7 @@ class UserRetrieveView(RetrieveAPIView):
 
 
 class DisplayNameUpdateView(UpdateAPIView):
-    # permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated,)
     serializer_class = UserUpdateSerializer
     lookup_field = "id"
     queryset = User.objects.all()
