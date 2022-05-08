@@ -45,7 +45,7 @@ class UserAPITests(TestCase):
         """Display_nameの変更"""
         # PATCH
         response = self.client.patch(
-            f"/users/update/2/",
+            f"/users/update/",
             {"displayName": "changed user"},
             format="json",
         )
