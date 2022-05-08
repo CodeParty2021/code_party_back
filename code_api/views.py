@@ -19,7 +19,7 @@ from .permission import IsOwnerOrReadOnlyPermission
 from .permission import IsStaffOrReadOnlyPermission
 from .filter import CodeFilter
 from result_api.models import Result
-from game_libs import sqare_paint
+from game_libs import square_paint
 
 
 class ProgrammingLanguageViewSet(viewsets.ModelViewSet):
@@ -48,8 +48,11 @@ def execute_code(codes, step):
         players += [{"icon": auther.picture, "name": auther.display_name}]
 
     # シミュレータ実行
-    option = sqare_paint.Option(user_code=python_objects, players=players)
-    result_data = sqare_paint.start(option)
+
+    option = square_paint.Option.fromJSONDict(
+        user_code=python_objects, players=players, json_dict=option
+    )
+    result_data = square_paint.start(option)
 
     return result_data
 
@@ -65,7 +68,7 @@ class CodeViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["get"], permission_classes=[])
     def test(self, request, pk=None):
-        MAX_PLAYER = 4
+
         queryset = self.get_queryset()
         codeids = [pk]  # リソースのIDをシミュレーション対象コードに追加する
         step = None
@@ -73,6 +76,7 @@ class CodeViewSet(viewsets.ModelViewSet):
             step = queryset.get(id=pk).step
         except:
             return Response({"detail": "不正なIDです。"}, status.HTTP_400_BAD_REQUEST)
+        MAX_PLAYER = step.option["num_players"] if step.option["num_players"] else 4
 
         # GETパラメータに指定されたコードを取得
         for i in range(1, MAX_PLAYER):
@@ -138,6 +142,9 @@ class CodeViewSet(viewsets.ModelViewSet):
             step = queryset.get(id=post_code[0]).step
         except:
             return Response({"detail": "不正なIDです。"}, status.HTTP_400_BAD_REQUEST)
+
+        MAX_PLAYER = step.option["num_players"] if step.option["num_players"] else 4
+
         for pid in post_code:
             code = queryset.get(id=pid)
             if not code:  # チェック
@@ -147,7 +154,7 @@ class CodeViewSet(viewsets.ModelViewSet):
             codes += [code]
 
         # 4つじゃなかったらランダムに足す
-        if len(codes) <= 4:
+        if len(codes) <= MAX_PLAYER:
             try:
                 codes += [
                     queryset.get(id=uuid[0])
@@ -157,7 +164,7 @@ class CodeViewSet(viewsets.ModelViewSet):
                             .exclude(id__in=[code.id for code in codes])
                             .values_list("id")
                         ),
-                        4 - len(codes),
+                        MAX_PLAYER - len(codes),
                     )
                 ]
             except ValueError:
