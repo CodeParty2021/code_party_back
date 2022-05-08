@@ -76,12 +76,17 @@ class CodeViewSet(viewsets.ModelViewSet):
             step = queryset.get(id=pk).step
         except:
             return Response({"detail": "不正なIDです。"}, status.HTTP_400_BAD_REQUEST)
-        MAX_PLAYER = step.option["num_players"] if step.option["num_players"] else 4
+        MAX_PLAYER = 4
+        try:
+            MAX_PLAYER = step.option["num_players"]
+        except:
+            pass
 
-        # GETパラメータに指定されたコードを取得
-        for i in range(1, MAX_PLAYER):
-            if f"p{i}" in request.GET:
-                codeids.append(request.GET.get(f"p{i}"))
+        opponents = step.opponents.all()
+
+        # 対戦相手のコードを取得
+        for opponent in opponents:
+            codeids.append(str(opponent.id))
 
         # コードを4件になるまでランダムに補充
         try:
@@ -94,19 +99,22 @@ class CodeViewSet(viewsets.ModelViewSet):
                 ]
             )
             allCodes = allCodes - set(codeids)
-            codeids.extend(random.sample(list(allCodes), MAX_PLAYER - len(codeids)))
+            codeids.extend(random.sample(
+                list(allCodes), MAX_PLAYER - len(codeids)))
         except ValueError:
             return Response({"detail": "コードのリソース数が足りません。"}, status.HTTP_400_BAD_REQUEST)
 
         # コードを取得
         codes = []
-        try:
-            for codeid in codeids:
-                codes.append(
-                    queryset.get(id=codeid, step=step)
-                )  # 指定されたコードが同じステップのものかを取得
-        except:
-            return Response({"detail": "リソースが見つかりません。"}, status.HTTP_400_BAD_REQUEST)
+
+        # TODO: stepじゃなくてワールドの判定の方がよい？
+        # try:
+        #    for codeid in codeids:
+        #        codes.append(
+        #            queryset.get(id=codeid, step=step)
+        #        )  # 指定されたコードが同じステップのものかを取得
+        # except:
+        #    return Response({"detail": "リソースが見つかりません。"}, status.HTTP_400_BAD_REQUEST)
 
         try:
             result_data = execute_code(codes, step)
@@ -142,7 +150,11 @@ class CodeViewSet(viewsets.ModelViewSet):
         except:
             return Response({"detail": "不正なIDです。"}, status.HTTP_400_BAD_REQUEST)
 
-        MAX_PLAYER = step.option["num_players"] if step.option["num_players"] else 4
+        MAX_PLAYER = 4
+        try:
+            MAX_PLAYER = step.option["num_players"]
+        except:
+            pass
 
         for pid in post_code:
             code = queryset.get(id=pid)

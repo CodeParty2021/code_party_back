@@ -1,14 +1,9 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Step, StepCode
+from .models import Step
 
 
 @admin.register(Step)
 class StepAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(StepCode)
-class StepCodeAdmin(admin.ModelAdmin):
     pass

@@ -12,10 +12,5 @@ class Step(models.Model):
     stage = models.ForeignKey(Stage, on_delete=models.CASCADE)
 
     option = models.JSONField(default={})
-
-
-class StepCode(models.Model):
-    # コード
-    code = models.ForeignKey("code_api.code", on_delete=models.SET_NULL, null=True)
-    # ステップ
-    step = models.ForeignKey(Step, on_delete=models.SET_NULL, null=True)
+    opponents = models.ManyToManyField(
+        "code_api.code", related_name="opponents")
