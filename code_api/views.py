@@ -99,8 +99,7 @@ class CodeViewSet(viewsets.ModelViewSet):
                 ]
             )
             allCodes = allCodes - set(codeids)
-            codeids.extend(random.sample(
-                list(allCodes), MAX_PLAYER - len(codeids)))
+            codeids.extend(random.sample(list(allCodes), MAX_PLAYER - len(codeids)))
         except ValueError:
             return Response({"detail": "コードのリソース数が足りません。"}, status.HTTP_400_BAD_REQUEST)
 

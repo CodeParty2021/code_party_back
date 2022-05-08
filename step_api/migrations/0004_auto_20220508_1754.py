@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('code_api', '0001_initial'),
-        ('step_api', '0003_step_option'),
+        ("code_api", "0001_initial"),
+        ("step_api", "0003_step_option"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='step',
-            name='opponents',
-            field=models.ManyToManyField(related_name='opponents', to='code_api.Code'),
+            model_name="step",
+            name="opponents",
+            field=models.ManyToManyField(related_name="opponents", to="code_api.Code"),
         ),
         migrations.DeleteModel(
-            name='StepCode',
+            name="StepCode",
         ),
     ]
