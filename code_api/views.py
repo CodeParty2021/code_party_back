@@ -28,10 +28,11 @@ class ProgrammingLanguageViewSet(viewsets.ModelViewSet):
     permission_classes = (IsStaffOrReadOnlyPermission,)
 
 
-def execute_code(codes):
+def execute_code(codes, step):
     codes_str = [c.code_content for c in codes]
     # コードを関数オブジェクト化
     python_objects = []
+    option = step.option
     for code_str in codes_str:
         user_dict = {}
         exec(code_str, user_dict)
@@ -89,7 +90,8 @@ class CodeViewSet(viewsets.ModelViewSet):
                 ]
             )
             allCodes = allCodes - set(codeids)
-            codeids.extend(random.sample(list(allCodes), MAX_PLAYER - len(codeids)))
+            codeids.extend(random.sample(
+                list(allCodes), MAX_PLAYER - len(codeids)))
         except ValueError:
             return Response({"detail": "コードのリソース数が足りません。"}, status.HTTP_400_BAD_REQUEST)
 
@@ -104,7 +106,7 @@ class CodeViewSet(viewsets.ModelViewSet):
             return Response({"detail": "リソースが見つかりません。"}, status.HTTP_400_BAD_REQUEST)
 
         try:
-            result_data = execute_code(codes)
+            result_data = execute_code(codes, step)
         except NameError:
             return Response(
                 {"detail": "select関数が見つかりません。"}, status.HTTP_400_BAD_REQUEST
@@ -166,7 +168,7 @@ class CodeViewSet(viewsets.ModelViewSet):
         # コード実行
         result_data = None
         try:
-            result_data = execute_code(codes)
+            result_data = execute_code(codes, step)
         except NameError:
             return Response(
                 {"detail": "select関数が見つかりません。"}, status.HTTP_400_BAD_REQUEST
