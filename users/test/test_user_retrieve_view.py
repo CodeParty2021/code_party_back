@@ -35,7 +35,6 @@ class UserAPITests(TestCase):
 
     def test_Display_Name_Update(self):
         self.user1 = User.objects.create(
-            id="2",
             display_name="hello",
             picture="http://localhost:8000/users/auth",
             is_staff=True,
@@ -58,7 +57,6 @@ class UserAPITests(TestCase):
         self.assertEquals(
             body,
             {
-                "id": "2",
                 "displayName": "changed user",
                 "picture": "http://localhost:8000/users/auth",
                 "isStaff": True,

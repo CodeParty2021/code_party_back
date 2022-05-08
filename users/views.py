@@ -32,7 +32,6 @@ class DisplayNameUpdateView(UpdateAPIView):
 
     def get_object(self):
         try:
-            print(self.request.user.id)
             instance = self.queryset.get(id=self.request.user.id)
             return instance
         except User.DoesNotExist:
