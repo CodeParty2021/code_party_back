@@ -25,7 +25,9 @@ class UserRetrieveView(RetrieveAPIView):
 
 
 class DisplayNameUpdateView(UpdateAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = [
+        FirebaseAuthentication,
+    ]
     serializer_class = UserUpdateSerializer
     lookup_field = "id"
     queryset = User.objects.all()
