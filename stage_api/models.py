@@ -1,7 +1,9 @@
 from django.db import models
+from world_api.models import World
 
 
 class Stage(models.Model):
-    name = models.CharField(max_length=32)
-    stage_index = models.IntegerField()
-    rule = models.CharField(max_length=300)
+    index = models.IntegerField()
+    objective = models.CharField(max_length=300)
+    movie_url = models.URLField()
+    world = models.ForeignKey(World, on_delete=models.CASCADE)

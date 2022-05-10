@@ -11,21 +11,50 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+from telnetlib import AUTHENTICATION
+from firebase_admin import credentials
+import firebase_admin
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# .env ファイルをロードして環境変数へ反映
+load_dotenv()
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-#xy3cwt55whodjw2s+xnz%xk6tu-09#ax8!44z)3e1@8c1hhn&"
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+keys_dict = {
+    "type": os.getenv("TYPE"),
+    "project_id": os.getenv("PROJECT_ID"),
+    "private_key_id": os.getenv("PRIVATE_KEY_ID"),
+    "private_key": os.getenv("PRIVATE_KEY"),
+    "client_email": os.getenv("CLIENT_EMAIL"),
+    "client_id": os.getenv("CLIENT_ID"),
+    "auth_uri": os.getenv("AUTH_URI"),
+    "token_uri": os.getenv("TOKEN_URI"),
+    "auth_provider_x509_cert_url": os.getenv("AUTH_PROVIDER_X509_CERT_URL"),
+    "client_x509_cert_url": os.getenv("CLIENT_X509_CERT_URL"),
+}
+
+keys_dict["private_key"] = keys_dict["private_key"].replace(
+    r"\n",
+    "\n",
+)  # keyに改行コードが含まれているのでそれの変換処理
+cred = credentials.Certificate(keys_dict)
+firebase_admin.initialize_app(cred)
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOST = ["localhost", "code-party-back.herokuapp.com"]
+ALLOWED_HOST = ["code-party-back.herokuapp.com"]
 
 # Application definition
 
@@ -36,12 +65,20 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",  # Django CORS Headers
+    "users",
+    "world_api",
     "stage_api",
+    "step_api",
+    "code_api",
+    "result_api",
     "rest_framework",
+    "django_filters",
 ]
 
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
+    "django.middleware.security.SecurityMiddleware",  # Django CORS Headers
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -100,13 +137,32 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    "DEFAULT_RENDERER_CLASSES": (
+        "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
+        "djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer",
+    ),
+    "DEFAULT_PARSER_CLASSES": (
+        # If you use MultiPartFormParser or FormParser, we also have a camel case version
+        "djangorestframework_camel_case.parser.CamelCaseFormParser",
+        "djangorestframework_camel_case.parser.CamelCaseMultiPartParser",
+        "djangorestframework_camel_case.parser.CamelCaseJSONParser",
+        # Any other parsers
+    ),
+    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+        "users.auth.FirebaseAuthentication",
+    ),
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ja"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Tokyo"
 
 USE_I18N = True
 
@@ -124,6 +180,16 @@ STATIC_URL = "/static/"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+    "https://codeparty.netlify.app",
+]
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"(https://deploy-preview-){1}[0-9]+(--codeparty.netlify.app)"
+]
 
 
 # heroku

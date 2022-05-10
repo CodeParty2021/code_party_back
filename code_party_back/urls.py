@@ -16,9 +16,13 @@ Including another URLconf
 from django.urls import path, include
 from django.contrib import admin
 
-from stage_api.urls import router as StageAPI_router
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("stages/", include(StageAPI_router.urls)),
+    path("users/", include("users.urls")),
+    path("stages/", include("stage_api.urls")),
+    path("worlds/", include("world_api.urls")),
+    path("steps/", include("step_api.urls")),
+    path("codes/", include("code_api.urls")),
+    path("results/", include("result_api.urls")),
 ]

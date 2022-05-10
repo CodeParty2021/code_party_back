@@ -1,0 +1,12 @@
+[
+    {
+      "model": "world_api.world",
+      "pk": 1,
+      "fields": {
+        "name":"スクエアペイント",
+        "description":"ロボットを操作して色を塗るゲーム．制限時間終了後に一番多く塗った人が勝ち！",
+        "movie_url":"https://dummy.dummyhogehoge.com",
+        "index":1
+      }
+    }
+  ]
