@@ -1,0 +1,54 @@
+[
+    {
+      "model": "code_api.code",
+      "pk": 1,
+      "fields": {
+        "id": 1,
+        "code_content": "# 0=>まえにすすむ、1=>みぎにすすむ、2=>うしろにすすむ、3=>ひだりにすすむ、4=>そのままとまる\ndef select(turn_num, field, my_pos, other_pos):\n  meirei = {\n    1: 1,\n    2: 1,\n    3: 1,\n    4: 1,\n    5: 0,\n    6: 3,\n    7: 3,\n    8: 3,\n    9: 3,\n    10: 0,\n    11: 1,\n    12: 1,\n    13: 1,\n    14: 1,\n    15: 2,\n    16: 3,\n    17: 3,\n    18: 3,\n    19: 3,\n    20: 2,\n    21: 1,\n    22: 1,\n    23: 1,\n    24: 1,\n    25: 0,\n    26: 3,\n    27: 3,\n    28: 3,\n    29: 3,\n    30: 0,\n  }\n  return meirei[turn_num]",
+        "created_at" : "2022-04-05T19:31:07.234555+09:00",
+        "updated_at" : "2022-04-05T19:31:07.234555+09:00",
+        "language": 1,
+        "step": 1,
+        "user": "sample_token1"
+      }
+    },
+    {
+      "model": "code_api.code",
+      "pk": 2,
+      "fields": {
+        "id": 2,
+        "code_content": "# 0=>まえにすすむ、1=>みぎにすすむ、2=>ひだりにすすむ、3=>うしろに進む、4=>そのままとまる\ndef select(turn_num, field, my_pos, other_pos):\n  meirei = {\n    1: 0,\n    2: 0,\n    3: 0,\n    4: 0,\n    5: 1,\n    6: 1,\n    7: 1,\n    8: 1,\n    9: 2,\n    10: 2,\n    11: 2,\n    12: 2,\n    13: 3,\n    14: 3,\n    15: 3,\n    16: 3,\n    17: 0,\n    18: 0,\n    19: 0,\n    20: 0,\n    21: 1,\n    22: 1,\n    23: 1,\n    24: 1,\n    25: 2,\n    26: 2,\n    27: 2,\n    28: 2,\n    29: 3,\n    30: 3,\n  }\n  return meirei[turn_num]",
+        "created_at" : "2022-04-05T19:31:07.234555+09:00",
+        "updated_at" : "2022-04-05T19:31:07.234555+09:00",
+        "language": 1,
+        "step": 1,
+        "user": "sample_token2"
+      }
+    },
+    {
+      "model": "code_api.code",
+      "pk": 3,
+      "fields": {
+        "id": 3,
+        "code_content":"# 0=>まえにすすむ、1=>みぎにすすむ、2=>うしろにすすむ、3=>ひだりに進む、4=>そのままとまる\ndef select(turn_num, field, my_pos, other_pos):\n  meirei = {\n    1: 4,\n    2: 4,\n    3: 4,\n    4: 4,\n    5: 4,\n    6: 4,\n    7: 0,\n    8: 0,\n    9: 0,\n    10: 0,\n    11: 1,\n    12: 2,\n    13: 2,\n    14: 2,\n    15: 2,\n    16: 1,\n    17: 0,\n    18: 0,\n    19: 0,\n    20: 0,\n    21: 1,\n    22: 2,\n    23: 2,\n    24: 2,\n    25: 2,\n    26: 1,\n    27: 0,\n    28: 0,\n    29: 0,\n    30: 0,\n  }\n  return meirei[turn_num]",
+        "created_at" : "2022-04-05T19:31:07.234555+09:00",
+        "updated_at" : "2022-04-05T19:31:07.234555+09:00",
+        "language": 1,
+        "step": 1,
+        "user": "sample_token3"
+      }
+    },
+    {
+      "model": "code_api.code",
+      "pk": 4,
+      "fields": {
+        "id": 4,
+        "code_content":"# 0=>まえにすすむ、1=>みぎにすすむ、2=>うしろにすすむ、3=>ひだりに進む、4=>そのままとまる\ndef select(turn_num, field, my_pos, other_pos):\n  meirei = {\n    1: 4,\n    2: 4,\n    3: 4,\n    4: 4,\n    5: 4,\n    6: 4,\n    7: 0,\n    8: 0,\n    9: 0,\n    10: 0,\n    11: 1,\n    12: 1,\n    13: 1,\n    14: 1,\n    15: 2,\n    16: 2,\n    17: 2,\n    18: 2,\n    19: 3,\n    20: 3,\n    21: 3,\n    22: 0,\n    23: 0,\n    24: 0,\n    25: 1,\n    26: 1,\n    27: 2,\n    28: 2,\n    29: 3,\n    30: 0,\n  }\n  return meirei[turn_num]",
+        "created_at" : "2022-04-05T19:31:07.234555+09:00",
+        "updated_at" : "2022-04-05T19:31:07.234555+09:00",
+        "language": 1,
+        "step": 1,
+        "user": "sample_token4"
+      }
+    }
+  ]

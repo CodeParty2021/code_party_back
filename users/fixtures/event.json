@@ -1,0 +1,42 @@
+[
+    {
+      "model": "users.user",
+      "pk": 2,
+      "fields": {
+        "id": "sample_token1",
+        "display_name": "ROBOT1",
+        "picture" : "sampe.java",
+        "is_staff" : false
+      }
+    },
+    {
+      "model": "users.user",
+      "pk": 3,
+      "fields": {
+        "id": "sample_token2",
+        "display_name": "ROBOT2",
+        "picture" : "sampe.java",
+        "is_staff" : false
+      }
+    },
+    {
+      "model": "users.user",
+      "pk": 4,
+      "fields": {
+        "id": "sample_token3",
+        "display_name": "ROBOT3",
+        "picture" : "sampe.java",
+        "is_staff" : false
+      }
+    },
+    {
+      "model": "users.user",
+      "pk": 5,
+      "fields": {
+        "id": "sample_token4",
+        "display_name": "ROBOT4",
+        "picture" : "sampe.java",
+        "is_staff" : false
+      }
+    }
+]

@@ -48,7 +48,6 @@ def execute_code(codes, step):
         players += [{"icon": auther.picture, "name": auther.display_name}]
 
     # シミュレータ実行
-
     option = square_paint.Option.fromJSONDict(
         user_code=python_objects, players=players, json_dict=option
     )
@@ -107,13 +106,11 @@ class CodeViewSet(viewsets.ModelViewSet):
         codes = []
 
         # TODO: stepじゃなくてワールドの判定の方がよい？
-        # try:
-        #    for codeid in codeids:
-        #        codes.append(
-        #            queryset.get(id=codeid, step=step)
-        #        )  # 指定されたコードが同じステップのものかを取得
-        # except:
-        #    return Response({"detail": "リソースが見つかりません。"}, status.HTTP_400_BAD_REQUEST)
+        try:
+            for codeid in codeids:
+                codes.append(queryset.get(id=codeid))
+        except:
+            return Response({"detail": "リソースが見つかりません。"}, status.HTTP_400_BAD_REQUEST)
 
         try:
             result_data = execute_code(codes, step)
