@@ -38,5 +38,15 @@
         "picture" : "sampe.java",
         "is_staff" : false
       }
+    },
+    {
+      "model": "users.user",
+      "pk": 6,
+      "fields": {
+        "id": "sample_token5",
+        "display_name": "BOSS",
+        "picture" : "sampe.java",
+        "is_staff" : false
+      }
     }
 ]

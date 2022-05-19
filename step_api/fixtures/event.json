@@ -85,5 +85,20 @@
         },
         "opponents":[4]
       }
+    },
+      {
+      "model": "step_api.step",
+      "pk": 7,
+      "fields": {
+        "objective":"一番多く塗った人が勝ち",
+        "description":"最強ロボット対戦モード",
+        "index": 1,
+        "stage": 1,
+        "option" : {
+          "num_players":2,
+          "initial_pos":[[0,0],[4,4]]
+        },
+        "opponents":[5]
+      }
     }
   ]
