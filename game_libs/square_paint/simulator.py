@@ -134,7 +134,7 @@ def start(option: Option = Option()):
     return json_
 
 
-def get_states(players, field,turn_num):
+def get_states(players, field, turn_num):
     masked_field = field.mask_field()
     others = [players[: player.id] + players[player.id + 1 :] for player in players]
     return [
@@ -142,7 +142,7 @@ def get_states(players, field,turn_num):
             "my_pos": player.get_pos(),
             "others_pos": [other.get_pos() for other in others[player.id]],
             "field": masked_field,
-            "turn_num": turn_num
+            "turn_num": turn_num,
         }
         for player in players
     ]
@@ -280,7 +280,7 @@ def run(
         ]
 
         # 4人分の状態を生成
-        states = get_states(players, field,i+1) #turn_numは1~max_turnまで
+        states = get_states(players, field, i + 1)  # turn_numは1~max_turnまで
         """
         下の辞書が人数分入った辞書が作られる
         {
