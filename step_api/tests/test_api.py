@@ -97,8 +97,8 @@ class StepAPITests(TestCase):
                     "description": "このステップではXXXします",
                     "index": 10,
                     "stage": stage1_get.id,
-                    'opponents': [],
-                    'option': {},
+                    "opponents": [],
+                    "option": {},
                 },
                 {
                     "id": 2,
@@ -106,8 +106,8 @@ class StepAPITests(TestCase):
                     "description": "このステップではYYYします",
                     "index": 3,
                     "stage": stage2_get.id,
-                    'opponents': [],
-                    'option': {},
+                    "opponents": [],
+                    "option": {},
                 },
             ],
         )
@@ -137,8 +137,8 @@ class StepAPITests(TestCase):
                 "description": "このステップではXXXします",
                 "index": 10,
                 "stage": stage1_get.id,
-                'opponents': [],
-                'option': {},
+                "opponents": [],
+                "option": {},
             },
         )
 
@@ -147,8 +147,7 @@ class StepAPITests(TestCase):
         # GET
         stage1_get = Stage.objects.get(index="10")
         stage2_get = Stage.objects.get(index="1")
-        response = self.client.get(
-            "/steps/", {"order_by": "index"}, format="json")
+        response = self.client.get("/steps/", {"order_by": "index"}, format="json")
         # レスポンスのステータスコードをチェック
         self.assertEquals(response.status_code, 200)
         # jsonをデコード
@@ -163,8 +162,8 @@ class StepAPITests(TestCase):
                     "description": "このステップではYYYします",
                     "index": 3,
                     "stage": stage2_get.id,
-                    'opponents': [],
-                    'option': {},
+                    "opponents": [],
+                    "option": {},
                 },
                 {
                     "id": 1,
@@ -172,8 +171,8 @@ class StepAPITests(TestCase):
                     "description": "このステップではXXXします",
                     "index": 10,
                     "stage": stage1_get.id,
-                    'opponents': [],
-                    'option': {},
+                    "opponents": [],
+                    "option": {},
                 },
             ],
         )
@@ -197,8 +196,8 @@ class StepAPITests(TestCase):
                     "description": "このステップではYYYします",
                     "index": 3,
                     "stage": stage2_get.id,
-                    'opponents': [],
-                    'option': {},
+                    "opponents": [],
+                    "option": {},
                 }
             ],
         )
@@ -207,8 +206,7 @@ class StepAPITests(TestCase):
         """stageのidが一致するものだけを取得"""
         # GET
         stage1_get = Stage.objects.get(index="10")
-        response = self.client.get(
-            "/steps/", {"stage": stage1_get.id}, format="json")
+        response = self.client.get("/steps/", {"stage": stage1_get.id}, format="json")
         # レスポンスのステータスコードをチェック
         self.assertEquals(response.status_code, 200)
         # jsonをデコード
@@ -223,8 +221,8 @@ class StepAPITests(TestCase):
                     "description": "このステップではXXXします",
                     "index": 10,
                     "stage": stage1_get.id,
-                    'opponents': [],
-                    'option': {},
+                    "opponents": [],
+                    "option": {},
                 }
             ],
         )
@@ -258,7 +256,5 @@ class StepAPITests(TestCase):
         # データチェック
         self.assertEquals(step_edit_user.status_code, 200)  # Staffなので編集OK
         self.assertEquals(step_view.status_code, 200)  # Staffではないが閲覧だけなのでOK
-        self.assertEquals(step_edit_no_stuff.status_code,
-                          403)  # Staffじゃないので編集できない
-        self.assertEquals(step_delete_no_stuff.status_code,
-                          403)  # Staffじゃないので削除できない
+        self.assertEquals(step_edit_no_stuff.status_code, 403)  # Staffじゃないので編集できない
+        self.assertEquals(step_delete_no_stuff.status_code, 403)  # Staffじゃないので削除できない

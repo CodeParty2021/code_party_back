@@ -13,4 +13,5 @@ class Step(models.Model):
 
     option = models.JSONField(default={}, blank=True)
     opponents = models.ManyToManyField(
-        "code_api.code", related_name="opponents", blank=True, default=[])
+        "code_api.code", related_name="opponents", blank=True, default=[]
+    )
