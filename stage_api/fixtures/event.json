@@ -1,0 +1,12 @@
+[
+    {
+      "model": "stage_api.stage",
+      "pk": 2,
+      "fields": {
+        "index":0,
+        "objective" :"イベント用ステージ",
+        "movie_url" : "https://hogehogewoofoo.com",
+        "world":1
+      }
+    }
+  ]
