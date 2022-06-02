@@ -1,0 +1,67 @@
+[
+    {
+      "model": "code_api.code",
+      "pk": 1,
+      "fields": {
+        "id": 1,
+        "code_content": "# 0=>まえにすすむ、1=>みぎにすすむ、2=>うしろにすすむ、3=>ひだりにすすむ、4=>そのままとまる\ndef select(turn_num, field, my_pos, other_pos):\n  meirei = {\n    1: 3,\n    2: 3,\n    3: 3,\n    4: 3,\n    5: 2,\n    6: 1,\n    7: 1,\n    8: 1,\n    9: 1,\n    10: 2,\n    11: 3,\n    12: 3,\n    13: 3,\n    14: 3,\n    15: 0,\n    16: 1,\n    17: 1,\n    18: 1,\n    19: 1,\n    20: 0,\n    21: 3,\n    22: 3,\n    23: 3,\n    24: 3,\n    25: 2,\n    26: 1,\n    27: 1,\n    28: 1,\n    29: 1,\n    30: 2,\n  }\n  return meirei[turn_num]",
+        "created_at" : "2022-04-05T19:31:07.234555+09:00",
+        "updated_at" : "2022-04-05T19:31:07.234555+09:00",
+        "language": 1,
+        "step": 1,
+        "user": "sample_token1"
+      }
+    },
+    {
+      "model": "code_api.code",
+      "pk": 2,
+      "fields": {
+        "id": 2,
+        "code_content": "# 0=>まえにすすむ、1=>みぎにすすむ、2=>ひだりにすすむ、3=>うしろに進む、4=>そのままとまる\ndef select(turn_num, field, my_pos, other_pos):\n  meirei = {\n    1: 2,\n    2: 2,\n    3: 2,\n    4: 2,\n    5: 3,\n    6: 3,\n    7: 3,\n    8: 3,\n    9: 0,\n    10: 0,\n    11: 0,\n    12: 0,\n    13: 1,\n    14: 1,\n    15: 1,\n    16: 1,\n    17: 2,\n    18: 2,\n    19: 2,\n    20: 2,\n    21: 3,\n    22: 3,\n    23: 3,\n    24: 3,\n    25: 0,\n    26: 0,\n    27: 0,\n    28: 0,\n    29: 1,\n    30: 1,\n  }\n  return meirei[turn_num]",
+        "created_at" : "2022-04-05T19:31:07.234555+09:00",
+        "updated_at" : "2022-04-05T19:31:07.234555+09:00",
+        "language": 1,
+        "step": 1,
+        "user": "sample_token2"
+      }
+    },
+    {
+      "model": "code_api.code",
+      "pk": 3,
+      "fields": {
+        "id": 3,
+        "code_content": "# 0=>まえにすすむ、1=>みぎにすすむ、2=>うしろにすすむ、3=>ひだりに進む、4=>そのままとまる\ndef select(turn_num, field, my_pos, other_pos):\n  meirei = {\n    1: 4,\n    2: 4,\n    3: 4,\n    4: 4,\n    5: 4,\n    6: 4,\n    7: 2,\n    8: 2,\n    9: 2,\n    10: 2,\n    11: 3,\n    12: 0,\n    13: 0,\n    14: 0,\n    15: 0,\n    16: 3,\n    17: 2,\n    18: 2,\n    19: 2,\n    20: 2,\n    21: 3,\n    22: 0,\n    23: 0,\n    24: 0,\n    25: 0,\n    26: 3,\n    27: 2,\n    28: 2,\n    29: 2,\n    30: 2,\n  }\n  return meirei[turn_num]",
+        "created_at" : "2022-04-05T19:31:07.234555+09:00",
+        "updated_at" : "2022-04-05T19:31:07.234555+09:00",
+        "language": 1,
+        "step": 1,
+        "user": "sample_token3"
+      }
+    },
+    {
+      "model": "code_api.code",
+      "pk": 4,
+      "fields": {
+        "id": 4,
+        "code_content":"# 0=>まえにすすむ、1=>みぎにすすむ、2=>うしろにすすむ、3=>ひだりに進む、4=>そのままとまる\ndef select(turn_num, field, my_pos, other_pos):\n  meirei = {\n    1: 4,\n    2: 4,\n    3: 4,\n    4: 4,\n    5: 4,\n    6: 4,\n    7: 2,\n    8: 2,\n    9: 2,\n    10: 2,\n    11: 3,\n    12: 3,\n    13: 3,\n    14: 3,\n    15: 0,\n    16: 0,\n    17: 0,\n    18: 0,\n    19: 1,\n    20: 1,\n    21: 1,\n    22: 2,\n    23: 2,\n    24: 2,\n    25: 3,\n    26: 3,\n    27: 0,\n    28: 0,\n    29: 1,\n    30: 2,\n  }\n  return meirei[turn_num]",
+        "created_at" : "2022-04-05T19:31:07.234555+09:00",
+        "updated_at" : "2022-04-05T19:31:07.234555+09:00",
+        "language": 1,
+        "step": 1,
+        "user": "sample_token4"
+      }
+    },
+      {
+      "model": "code_api.code",
+      "pk": 5,
+      "fields": {
+        "id": 5,
+        "code_content":"def distance(pos1,pos2):\n  return abs(pos1[0]-pos2[0])+abs(pos1[1]-pos2[1])\n\ndef travel(pos,my_pos):\n  if(pos[0]<my_pos[0]):\n    return 3\n  if(pos[0]>my_pos[0]):\n    return 1\n  if(pos[1]<my_pos[1]): \n    return 2\n  if(pos[1]>my_pos[1]): \n    return 0\n  return 4\n\ndef select(turn_num, field,my_pos,other_pos):\n  aim_to = 0\n  nearest = (99,99)\n  n_dist = 99\n\t\n  for i in range(5):\n    for j in range(5):\n      if(field[i][j] == aim_to):\n        dist = distance(my_pos,(j,i))\n        if(dist < n_dist):\n          nearest = (j,i)\n          n_dist = dist\n  act = travel(nearest,my_pos)\n  return act",
+        "created_at" : "2022-04-05T19:31:07.234555+09:00",
+        "updated_at" : "2022-04-05T19:31:07.234555+09:00",
+        "language": 1,
+        "step": 1,
+        "user": "sample_token5"
+      }
+    }
+  ]

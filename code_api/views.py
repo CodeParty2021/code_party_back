@@ -19,7 +19,7 @@ from .permission import IsOwnerOrReadOnlyPermission
 from .permission import IsStaffOrReadOnlyPermission
 from .filter import CodeFilter
 from result_api.models import Result
-from game_libs import sqare_paint
+from game_libs import square_paint
 
 
 class ProgrammingLanguageViewSet(viewsets.ModelViewSet):
@@ -28,10 +28,11 @@ class ProgrammingLanguageViewSet(viewsets.ModelViewSet):
     permission_classes = (IsStaffOrReadOnlyPermission,)
 
 
-def execute_code(codes):
+def execute_code(codes, step):
     codes_str = [c.code_content for c in codes]
     # コードを関数オブジェクト化
     python_objects = []
+    option = step.option
     for code_str in codes_str:
         user_dict = {}
         exec(code_str, user_dict)
@@ -47,8 +48,10 @@ def execute_code(codes):
         players += [{"icon": auther.picture, "name": auther.display_name}]
 
     # シミュレータ実行
-    option = sqare_paint.Option(user_code=python_objects, players=players)
-    result_data = sqare_paint.start(option)
+    option = square_paint.Option.fromJSONDict(
+        user_code=python_objects, players=players, json_dict=option
+    )
+    result_data = square_paint.start(option)
 
     return result_data
 
@@ -64,7 +67,7 @@ class CodeViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["get"], permission_classes=[])
     def test(self, request, pk=None):
-        MAX_PLAYER = 4
+
         queryset = self.get_queryset()
         codeids = [pk]  # リソースのIDをシミュレーション対象コードに追加する
         step = None
@@ -72,11 +75,17 @@ class CodeViewSet(viewsets.ModelViewSet):
             step = queryset.get(id=pk).step
         except:
             return Response({"detail": "不正なIDです。"}, status.HTTP_400_BAD_REQUEST)
+        MAX_PLAYER = 4
+        try:
+            MAX_PLAYER = step.option["num_players"]
+        except:
+            pass
 
-        # GETパラメータに指定されたコードを取得
-        for i in range(1, MAX_PLAYER):
-            if f"p{i}" in request.GET:
-                codeids.append(request.GET.get(f"p{i}"))
+        opponents = step.opponents.all()
+
+        # 対戦相手のコードを取得
+        for opponent in opponents:
+            codeids.append(str(opponent.id))
 
         # コードを4件になるまでランダムに補充
         try:
@@ -95,16 +104,16 @@ class CodeViewSet(viewsets.ModelViewSet):
 
         # コードを取得
         codes = []
+
+        # TODO: stepじゃなくてワールドの判定の方がよい？
         try:
             for codeid in codeids:
-                codes.append(
-                    queryset.get(id=codeid, step=step)
-                )  # 指定されたコードが同じステップのものかを取得
+                codes.append(queryset.get(id=codeid))
         except:
             return Response({"detail": "リソースが見つかりません。"}, status.HTTP_400_BAD_REQUEST)
 
         try:
-            result_data = execute_code(codes)
+            result_data = execute_code(codes, step)
         except NameError:
             return Response(
                 {"detail": "select関数が見つかりません。"}, status.HTTP_400_BAD_REQUEST
@@ -136,6 +145,13 @@ class CodeViewSet(viewsets.ModelViewSet):
             step = queryset.get(id=post_code[0]).step
         except:
             return Response({"detail": "不正なIDです。"}, status.HTTP_400_BAD_REQUEST)
+
+        MAX_PLAYER = 4
+        try:
+            MAX_PLAYER = step.option["num_players"]
+        except:
+            pass
+
         for pid in post_code:
             code = queryset.get(id=pid)
             if not code:  # チェック
@@ -145,7 +161,7 @@ class CodeViewSet(viewsets.ModelViewSet):
             codes += [code]
 
         # 4つじゃなかったらランダムに足す
-        if len(codes) <= 4:
+        if len(codes) <= MAX_PLAYER:
             try:
                 codes += [
                     queryset.get(id=uuid[0])
@@ -155,7 +171,7 @@ class CodeViewSet(viewsets.ModelViewSet):
                             .exclude(id__in=[code.id for code in codes])
                             .values_list("id")
                         ),
-                        4 - len(codes),
+                        MAX_PLAYER - len(codes),
                     )
                 ]
             except ValueError:
@@ -166,7 +182,7 @@ class CodeViewSet(viewsets.ModelViewSet):
         # コード実行
         result_data = None
         try:
-            result_data = execute_code(codes)
+            result_data = execute_code(codes, step)
         except NameError:
             return Response(
                 {"detail": "select関数が見つかりません。"}, status.HTTP_400_BAD_REQUEST

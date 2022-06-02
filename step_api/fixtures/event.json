@@ -1,0 +1,104 @@
+[
+    {
+      "model": "step_api.step",
+      "pk": 1,
+      "fields": {
+        "objective":"一番多く塗った人が勝ち",
+        "description":"フリーコーディング",
+        "index": 1,
+        "stage": 1,
+        "option" : {},
+        "opponents":[]
+      }
+    },
+    {
+      "model": "step_api.step",
+      "pk": 2,
+      "fields": {
+        "objective":"一番多く塗った人が勝ち",
+        "description":"1人用モード",
+        "index": 1,
+        "stage": 1,
+        "option" : {
+          "num_players":1,
+          "initial_pos":[[0,0]]
+        },
+        "opponents":[]
+      }
+    },
+    {
+      "model": "step_api.step",
+      "pk": 3,
+      "fields": {
+        "objective":"一番多く塗った人が勝ち",
+        "description":"ロボ1対戦モード",
+        "index": 1,
+        "stage": 1,
+        "option" : {
+          "num_players":2,
+          "initial_pos":[[0,0],[4,4]]
+        },
+        "opponents":[1]
+      }
+    },
+    {
+      "model": "step_api.step",
+      "pk": 4,
+      "fields": {
+        "objective":"一番多く塗った人が勝ち",
+        "description":"ロボ2対戦モード",
+        "index": 1,
+        "stage": 1,
+        "option" : {
+          "num_players":2,
+          "initial_pos":[[0,0],[4,4]]
+        },
+        "opponents":[2]
+      }
+    },
+    {
+      "model": "step_api.step",
+      "pk": 5,
+      "fields": {
+        "objective":"一番多く塗った人が勝ち",
+        "description":"ロボ3対戦モード",
+        "index": 1,
+        "stage": 1,
+        "option" : {
+          "num_players":2,
+          "initial_pos":[[0,0],[4,4]]
+        },
+        "opponents":[3]
+      }
+    },
+    {
+      "model": "step_api.step",
+      "pk": 6,
+      "fields": {
+        "objective":"一番多く塗った人が勝ち",
+        "description":"ロボ4対戦モード",
+        "index": 1,
+        "stage": 1,
+        "option" : {
+          "num_players":2,
+          "initial_pos":[[0,0],[4,4]]
+        },
+        "opponents":[4]
+      }
+    },
+      {
+      "model": "step_api.step",
+      "pk": 7,
+      "fields": {
+        "objective":"一番多く塗った人が勝ち",
+        "description":"最強ロボット対戦モード",
+        "index": 1,
+        "stage": 1,
+        "option" : {
+          "num_players":2,
+          "initial_pos":[[0,0],[4,4]]
+        },
+        "opponents":[5]
+      }
+    }
+  ]

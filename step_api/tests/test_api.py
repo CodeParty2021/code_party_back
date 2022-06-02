@@ -97,6 +97,8 @@ class StepAPITests(TestCase):
                     "description": "このステップではXXXします",
                     "index": 10,
                     "stage": stage1_get.id,
+                    "opponents": [],
+                    "option": {},
                 },
                 {
                     "id": 2,
@@ -104,6 +106,8 @@ class StepAPITests(TestCase):
                     "description": "このステップではYYYします",
                     "index": 3,
                     "stage": stage2_get.id,
+                    "opponents": [],
+                    "option": {},
                 },
             ],
         )
@@ -133,6 +137,8 @@ class StepAPITests(TestCase):
                 "description": "このステップではXXXします",
                 "index": 10,
                 "stage": stage1_get.id,
+                "opponents": [],
+                "option": {},
             },
         )
 
@@ -156,6 +162,8 @@ class StepAPITests(TestCase):
                     "description": "このステップではYYYします",
                     "index": 3,
                     "stage": stage2_get.id,
+                    "opponents": [],
+                    "option": {},
                 },
                 {
                     "id": 1,
@@ -163,6 +171,8 @@ class StepAPITests(TestCase):
                     "description": "このステップではXXXします",
                     "index": 10,
                     "stage": stage1_get.id,
+                    "opponents": [],
+                    "option": {},
                 },
             ],
         )
@@ -186,6 +196,8 @@ class StepAPITests(TestCase):
                     "description": "このステップではYYYします",
                     "index": 3,
                     "stage": stage2_get.id,
+                    "opponents": [],
+                    "option": {},
                 }
             ],
         )
@@ -209,6 +221,8 @@ class StepAPITests(TestCase):
                     "description": "このステップではXXXします",
                     "index": 10,
                     "stage": stage1_get.id,
+                    "opponents": [],
+                    "option": {},
                 }
             ],
         )
