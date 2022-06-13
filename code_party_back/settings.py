@@ -193,6 +193,9 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
 ]
 
 
+
+
+
 # heroku
 # if "/app" in os.environ["HOME"]:
 #     import django_heroku

@@ -8,6 +8,9 @@ from .permission import IsStuffOrReadOnlyPermission
 
 
 class StepViewSet(viewsets.ModelViewSet):
+    """
+    ここに説明をかける。
+    """
     queryset = Step.objects.all()
     serializer_class = StepSerializer
     filter_class = StepFilter

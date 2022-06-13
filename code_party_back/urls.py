@@ -18,6 +18,8 @@ from django.contrib import admin
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from django.conf import settings
+
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -29,7 +31,7 @@ schema_view = get_schema_view(
       license=openapi.License(name="BSD License"),
    ),
    public=True,
-   permission_classes=[permissions.AllowAny],
+   permission_classes=(permissions.AllowAny,) if settings.DEBUG else (permissions.IsAdminUser,),#閲覧権限の設定、ローカル以外では管理者のみ閲覧可能
 )
 
 urlpatterns = [
