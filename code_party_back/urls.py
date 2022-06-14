@@ -20,18 +20,21 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from django.conf import settings
 
+openapi_info = openapi.Info(
+    title="Snippets API",
+    default_version="v1",
+    description="Test description",
+    terms_of_service="https://www.google.com/policies/terms/",
+    contact=openapi.Contact(email="contact@snippets.local"),
+    license=openapi.License(name="BSD License"),
+)
 
 schema_view = get_schema_view(
-   openapi.Info(
-      title="Snippets API",
-      default_version='v1',
-      description="Test description",
-      terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
-      license=openapi.License(name="BSD License"),
-   ),
-   public=True,
-   permission_classes=(permissions.AllowAny,) if settings.DEBUG else (permissions.IsAdminUser,),#閲覧権限の設定、ローカル以外では管理者のみ閲覧可能
+    openapi_info,
+    public=True,
+    permission_classes=(permissions.AllowAny,)
+    if settings.DEBUG
+    else (permissions.IsAdminUser,),  # 閲覧権限の設定、ローカル以外では管理者のみ閲覧可能
 )
 
 urlpatterns = [
@@ -42,7 +45,17 @@ urlpatterns = [
     path("steps/", include("step_api.urls")),
     path("codes/", include("code_api.urls")),
     path("results/", include("result_api.urls")),
-    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    re_path(
+        r"^swagger(?P<format>\.json|\.yaml)$",
+        schema_view.without_ui(cache_timeout=0),
+        name="schema-json",
+    ),
+    re_path(
+        r"^swagger/$",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
+    re_path(
+        r"^redoc/$", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"
+    ),
 ]
