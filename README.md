@@ -121,7 +121,7 @@ python manage.py auth_test
 ```
 
 ## Swaggerによるエンドポイントの詳細の確認
-Swaggerでエンドポイントについてを確認できます。
+Swaggerでエンドポイントを確認できます。
 確認方法は以下となります。
 1. コマンドでサーバーを起動する。
    ```
@@ -129,5 +129,5 @@ Swaggerでエンドポイントについてを確認できます。
    ```
 2. Swaggerを導入したことで追加されたエンドポイント ```/Swagger/```　に接続する。
 
-そのほかの詳細については[こちら](https://www.notion.so/ea4344dedbb444818cb1aad0f7b6b612?p=0caa224d7c63453eb5b1253aab224ac0)
+Swaggerの詳細については[こちら](https://www.notion.so/ea4344dedbb444818cb1aad0f7b6b612?p=0caa224d7c63453eb5b1253aab224ac0)
 
