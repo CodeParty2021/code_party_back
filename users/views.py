@@ -25,6 +25,10 @@ class UserRetrieveView(RetrieveAPIView):
 
 
 class DisplayNameUpdateView(UpdateAPIView):
+    """
+    説明を書く
+    """
+
     authentication_classes = [
         FirebaseAuthentication,
     ]
