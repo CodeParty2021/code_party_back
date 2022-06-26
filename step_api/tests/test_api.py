@@ -57,7 +57,6 @@ class StepAPITests(TestCase):
             "/steps/",
             {
                 "objective": "達成条件はXXです",
-                "description": "このステップではXXXします",
                 "index": 10,
                 "stage": stage1.id,
             },
@@ -67,7 +66,6 @@ class StepAPITests(TestCase):
             "/steps/",
             {
                 "objective": "達成条件はZZZです",
-                "description": "このステップではYYYします",
                 "index": 3,
                 "stage": stage2.id,
             },
@@ -94,7 +92,6 @@ class StepAPITests(TestCase):
                 {
                     "id": 1,
                     "objective": "達成条件はXXです",
-                    "description": "このステップではXXXします",
                     "index": 10,
                     "stage": stage1_get.id,
                     "opponents": [],
@@ -103,7 +100,6 @@ class StepAPITests(TestCase):
                 {
                     "id": 2,
                     "objective": "達成条件はZZZです",
-                    "description": "このステップではYYYします",
                     "index": 3,
                     "stage": stage2_get.id,
                     "opponents": [],
@@ -134,7 +130,6 @@ class StepAPITests(TestCase):
             {
                 "id": 1,
                 "objective": "達成条件はXXです",
-                "description": "このステップではXXXします",
                 "index": 10,
                 "stage": stage1_get.id,
                 "opponents": [],
@@ -159,7 +154,6 @@ class StepAPITests(TestCase):
                 {
                     "id": 2,
                     "objective": "達成条件はZZZです",
-                    "description": "このステップではYYYします",
                     "index": 3,
                     "stage": stage2_get.id,
                     "opponents": [],
@@ -168,7 +162,6 @@ class StepAPITests(TestCase):
                 {
                     "id": 1,
                     "objective": "達成条件はXXです",
-                    "description": "このステップではXXXします",
                     "index": 10,
                     "stage": stage1_get.id,
                     "opponents": [],
@@ -193,7 +186,6 @@ class StepAPITests(TestCase):
                 {
                     "id": 2,
                     "objective": "達成条件はZZZです",
-                    "description": "このステップではYYYします",
                     "index": 3,
                     "stage": stage2_get.id,
                     "opponents": [],
@@ -218,7 +210,6 @@ class StepAPITests(TestCase):
                 {
                     "id": 1,
                     "objective": "達成条件はXXです",
-                    "description": "このステップではXXXします",
                     "index": 10,
                     "stage": stage1_get.id,
                     "opponents": [],
