@@ -1,6 +1,32 @@
 # CodeParty バックエンド
+- [環境構築（Docker）](#環境構築docker)
+- [環境構築（従来）](#環境構築従来)
 
-## 環境構築
+## 環境構築（Docker）
+1. dockerまたはdocker desktopをインストール
+  - docker desktopのインストールはこちらから
+2. リポジトリをクローン
+```
+git clone https://github.com/CodeParty2021/code_party_back.git
+cd code_party_back
+```
+3. .envファイルの作成。中身は[こちら](https://www.notion.so/ea4344dedbb444818cb1aad0f7b6b612?p=750a8dca400848d1a0ee8c8b1613d343)
+```
+vi .env
+```
+4. 以下のコマンドを実行
+```
+docker-compose build
+docker-compose up -d
+# データベース構築
+docker-compose run --rm backend pipenv run python manage.py migrate
+# 初期データ作成
+docker-compose run --rm backend pipenv run python manage.py loaddata post_initial.json
+# イベントデータの追加（任意）
+docker-compose run --rm backend pipenv run python manage.py loaddata event.json
+```
+
+## 環境構築（従来）
 
 1. pipenv をインストール
    ```
