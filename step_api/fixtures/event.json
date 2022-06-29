@@ -4,7 +4,6 @@
       "pk": 1,
       "fields": {
         "objective":"一番多く塗った人が勝ち",
-        "description":"フリーコーディング",
         "index": 1,
         "stage": 1,
         "option" : {},
@@ -16,7 +15,6 @@
       "pk": 2,
       "fields": {
         "objective":"一番多く塗った人が勝ち",
-        "description":"1人用モード",
         "index": 1,
         "stage": 1,
         "option" : {
@@ -31,7 +29,6 @@
       "pk": 3,
       "fields": {
         "objective":"一番多く塗った人が勝ち",
-        "description":"ロボ1対戦モード",
         "index": 1,
         "stage": 1,
         "option" : {
@@ -46,7 +43,6 @@
       "pk": 4,
       "fields": {
         "objective":"一番多く塗った人が勝ち",
-        "description":"ロボ2対戦モード",
         "index": 1,
         "stage": 1,
         "option" : {
@@ -61,7 +57,6 @@
       "pk": 5,
       "fields": {
         "objective":"一番多く塗った人が勝ち",
-        "description":"ロボ3対戦モード",
         "index": 1,
         "stage": 1,
         "option" : {
@@ -76,7 +71,6 @@
       "pk": 6,
       "fields": {
         "objective":"一番多く塗った人が勝ち",
-        "description":"ロボ4対戦モード",
         "index": 1,
         "stage": 1,
         "option" : {
@@ -91,7 +85,6 @@
       "pk": 7,
       "fields": {
         "objective":"一番多く塗った人が勝ち",
-        "description":"最強ロボット対戦モード",
         "index": 1,
         "stage": 1,
         "option" : {

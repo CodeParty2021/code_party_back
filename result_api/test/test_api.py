@@ -31,13 +31,11 @@ class ResultAPITests(TestCase):
         )
         self.step1 = Step.objects.create(
             objective="This is objectives of this step1.",
-            description="This is descriptions of this step1.",
             index=3,
             stage=stage,
         )
         self.step2 = Step.objects.create(
             objective="This is objectives of this step2.",
-            description="This is descriptions of this step2.",
             index=2,
             stage=stage,
         )
