@@ -6,7 +6,8 @@
         "id": "sample_token",
         "display_name": "ROBOT",
         "picture" : "sampe.java",
-        "is_staff" : false
+        "is_staff" : false,
+        "email" :"aaa@aaa.com"
       }
     }
 ]

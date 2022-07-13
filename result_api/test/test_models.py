@@ -25,7 +25,6 @@ class ResultModelsTests(TestCase):
         )
         self.step = Step.objects.create(
             objective="This is objectives of this step.",
-            description="This is descriptions of this step.",
             index=3,
             stage=stage,
         )

@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     "result_api",
     "rest_framework",
     "django_filters",
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [
@@ -190,6 +191,10 @@ CORS_ORIGIN_WHITELIST = [
 CORS_ALLOWED_ORIGIN_REGEXES = [
     r"(https://deploy-preview-){1}[0-9]+(--codeparty.netlify.app)"
 ]
+
+SWAGGER_SETTINGS = {
+    "DEFAULT_INFO": "code_party_back.urls.openapi_info",
+}
 
 
 # heroku

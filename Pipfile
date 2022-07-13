@@ -21,6 +21,7 @@ python-dotenv = "*"
 router = "*"
 testapp = "*"
 django-cors-headers = "*"
+drf-yasg = "*"
 
 [dev-packages]
 
