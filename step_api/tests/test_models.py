@@ -29,14 +29,12 @@ class StepModelsTests(TestCase):
         )
         Step.objects.create(
             objective="達成条件はXXです",
-            description="このステップではXXXします",
             index=10,
             stage=stage1,
         )
 
         Step.objects.create(
             objective="達成条件はZZZです",
-            description="このステップではYYYします",
             index=20,
             stage=stage2,
         )
@@ -46,7 +44,6 @@ class StepModelsTests(TestCase):
         test1 = Step.objects.get(index="10")
         stage_get = Stage.objects.get(index="10")
         self.assertEquals(test1.objective, "達成条件はXXです")
-        self.assertEquals(test1.description, "このステップではXXXします")
         self.assertEquals(test1.index, 10)
         self.assertEquals(test1.stage, stage_get)
 
@@ -55,6 +52,5 @@ class StepModelsTests(TestCase):
         test1 = Step.objects.get(index="20")
         stage_get = Stage.objects.get(index="1")
         self.assertEquals(test1.objective, "達成条件はZZZです")
-        self.assertEquals(test1.description, "このステップではYYYします")
         self.assertEquals(test1.index, 20)
         self.assertEquals(test1.stage, stage_get)
