@@ -23,12 +23,7 @@ class Player:
                     state["others_pos"],
                 )
                 if self.validate(output):
-                    return user_code(
-                        state["turn_num"],
-                        state["field"],
-                        state["my_pos"],
-                        state["others_pos"],
-                    )
+                    return output
                 else:
                     raise Exception("[0,1,2,3,4] のどれかを返してください")
             except Exception as e:
